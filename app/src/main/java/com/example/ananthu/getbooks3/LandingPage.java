@@ -8,6 +8,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -22,12 +24,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LandingPage extends AppCompatActivity {
 
     private final int INTERNET_PERMISSION = 1;
     public RequestQueue requestQueue;
-    private TextView testTV;
-    GoodreadRequest mGoodreadRequest;
+    //private TextView testTV;
+    private GoodreadRequest mGoodreadRequest;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +56,43 @@ public class LandingPage extends AppCompatActivity {
 
         requestInternetPermission();
         requestQueue = Volley.newRequestQueue(this);
-        testTV = findViewById(R.id.testTextView);
+        //testTV = findViewById(R.id.testTextView);
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
 
         mGoodreadRequest.getBook(12067, new SuccessFailedCallback() {
             @Override
             public void success(String response) {
                 Book test = new Book(response);
-                testTV.setText(test.toString());
+                //testTV.setText(test.toString());
             }
 
             @Override
             public void failed() {
                 Toast.makeText(
                         getApplicationContext(),
-                        "some error occured",
+                        "some error occurred",
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewLandingPage);
+
+        // for smooth scrolling in recycler view
+        recyclerView.setNestedScrollingEnabled(false);
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        List<String> input = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            input.add("Test" + i);
+        }
+
+        mAdapter = new RecyclerViewAdapter(input);
+        recyclerView.setAdapter(mAdapter);
+
     }
 
     @Override

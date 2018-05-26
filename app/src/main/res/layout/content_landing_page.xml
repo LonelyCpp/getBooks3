@@ -9,10 +9,12 @@
     tools:context="com.example.ananthu.getbooks3.LandingPage"
     tools:showIn="@layout/activity_landing_page">
 
-    <TextView
-        android:id="@+id/testTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewLandingPage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+
 
 </android.support.v4.widget.NestedScrollView>
