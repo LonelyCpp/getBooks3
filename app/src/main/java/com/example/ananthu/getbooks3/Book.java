@@ -152,27 +152,6 @@ public class Book {
     }
 
 
-
-    public void logAuthors(){
-        if(authors == null){
-            Log.d("authorLog", "list is null");
-            return;
-        }
-        for(int i = 0; i <authors.size(); i++){
-            Author author = authors.get(i);
-            if(author == null){
-                Log.d("authorLog", "author is null");
-                continue;
-            }
-            Log.d("authorLog", "auth name : "+author.getName());
-            Log.d("authorLog", "auth id : "+author.getId());
-            Log.d("authorLog", "auth img : "+author.getImg());
-
-        }
-    }
-
-
-
     public int getId() {
         return id;
     }
@@ -259,5 +238,22 @@ public class Book {
 
     public void setReviewCount(int reviewCount) {
         this.reviewCount = reviewCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn=" + isbn +
+                ", title='" + title + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", smallImageUrl='" + smallImageUrl + '\'' +
+                ", description='" + description + '\'' +
+                ", totalPages=" + totalPages +
+                ", authors=" + authors +
+                //", buyLinks=" + buyLinks +
+                ", avgRating=" + avgRating +
+                ", reviewCount=" + reviewCount +
+                '}';
     }
 }

@@ -94,6 +94,8 @@ public class Author {
                             idSet = nameSet = imgSet = false;
                         }
                         break;
+
+                    //parser stops as author end tag is encountered
                     case XmlPullParser.END_TAG:
                         if(parser.getName().equals("authors")){
                             return authorList;
@@ -141,5 +143,14 @@ public class Author {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", img='" + img + '\'' +
+                '}';
     }
 }

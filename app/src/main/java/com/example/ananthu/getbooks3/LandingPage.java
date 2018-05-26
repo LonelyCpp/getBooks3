@@ -50,15 +50,19 @@ public class LandingPage extends AppCompatActivity {
         testTV = findViewById(R.id.testTextView);
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
 
-        mGoodreadRequest.getBook(30256224, new SuccessFailedCallback() {
+        mGoodreadRequest.getBook(12067, new SuccessFailedCallback() {
             @Override
             public void success(String response) {
-                testTV.setText("Response is: "+ response.substring(0,500));
+                Book test = new Book(response);
+                testTV.setText(test.toString());
             }
 
             @Override
             public void failed() {
-                testTV.setText("failed request");
+                Toast.makeText(
+                        getApplicationContext(),
+                        "some error occured",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
