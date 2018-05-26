@@ -1,11 +1,15 @@
 package com.example.ananthu.getbooks3;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // each data item is just a string in this case
         public TextView txtHeader;
         public TextView txtFooter;
+        public SimpleDraweeView bookCover;
         public View layout;
 
         public ViewHolder(View v) {
@@ -34,6 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             layout = v;
             txtHeader = v.findViewById(R.id.firstLine);
             txtFooter = v.findViewById(R.id.secondLine);
+            bookCover = v.findViewById(R.id.bookCover);
         }
     }
 
@@ -78,6 +84,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             authorNameList.add(i.getName());
         }
         holder.txtFooter.setText(TextUtils.join(", ", authorNameList));
+        holder.bookCover.setImageURI( Uri.parse(book.getImageUrl()) );
+
     }
 
     @Override
