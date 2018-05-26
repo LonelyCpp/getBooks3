@@ -1,12 +1,15 @@
 package com.example.ananthu.getbooks3;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Created by Ananthu on 26-05-2018.
@@ -14,9 +17,9 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
-    private List<String> values;
+    private List<Book> values;
 
-    public RecyclerViewAdapter(List<String> myDataset) {
+    public RecyclerViewAdapter(List<Book> myDataset) {
         values = myDataset;
     }
 
@@ -29,12 +32,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View v) {
             super(v);
             layout = v;
-            txtHeader = (TextView) v.findViewById(R.id.firstLine);
-            txtFooter = (TextView) v.findViewById(R.id.secondLine);
+            txtHeader = v.findViewById(R.id.firstLine);
+            txtFooter = v.findViewById(R.id.secondLine);
         }
     }
 
-    public void add(int position, String item) {
+    public void add(Book item) {
+        int position = values.size();
         values.add(position, item);
         notifyItemInserted(position);
     }
@@ -57,19 +61,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final String name = values.get(position);
-        holder.txtHeader.setText(name);
+        final Book book = values.get(position);
+        holder.txtHeader.setText(book.getTitle());
         holder.txtHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(position);
+                // TODO item click handler
             }
         });
 
-        holder.txtFooter.setText("Footer: " + name);
+        List<String> authorNameList = new ArrayList<>();
+        for(Author i : book.getAuthors()){
+            authorNameList.add(i.getName());
+        }
+        holder.txtFooter.setText(TextUtils.join(", ", authorNameList));
     }
 
     @Override

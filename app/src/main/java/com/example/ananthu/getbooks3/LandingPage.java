@@ -24,7 +24,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LandingPage extends AppCompatActivity {
@@ -33,9 +35,17 @@ public class LandingPage extends AppCompatActivity {
     public RequestQueue requestQueue;
     //private TextView testTV;
     private GoodreadRequest mGoodreadRequest;
+    List<Book> books = new ArrayList<>();
+
+    private List<Integer> randomBookIds = new ArrayList<>(
+            Arrays.asList(
+                    30256224, 30688013, 22535503,
+                    22557272, 31848288, 31208653,
+                    17345242, 853510, 12067)
+        );
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     @Override
@@ -44,6 +54,47 @@ public class LandingPage extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewLandingPage);
+
+        // for smooth scrolling in recycler view
+        recyclerView.setNestedScrollingEnabled(false);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+
+        mAdapter = new RecyclerViewAdapter(books);
+        recyclerView.setAdapter(mAdapter);
+
+
+        requestInternetPermission();
+        requestQueue = Volley.newRequestQueue(this);
+        //testTV = findViewById(R.id.testTextView);
+        mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
+
+        for(int i = 0; i < randomBookIds.size(); i++){
+
+            mGoodreadRequest.getBook(randomBookIds.get(i), new SuccessFailedCallback() {
+                @Override
+                public void success(String response) {
+
+                    Book book = new Book(response);
+                    //testTV.setText(test.toString());
+                    mAdapter.add(book);
+                }
+
+                @Override
+                public void failed() {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "some error occurred",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -54,44 +105,6 @@ public class LandingPage extends AppCompatActivity {
             }
         });
 
-        requestInternetPermission();
-        requestQueue = Volley.newRequestQueue(this);
-        //testTV = findViewById(R.id.testTextView);
-        mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
-
-        mGoodreadRequest.getBook(12067, new SuccessFailedCallback() {
-            @Override
-            public void success(String response) {
-                Book test = new Book(response);
-                //testTV.setText(test.toString());
-            }
-
-            @Override
-            public void failed() {
-                Toast.makeText(
-                        getApplicationContext(),
-                        "some error occurred",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewLandingPage);
-
-        // for smooth scrolling in recycler view
-        recyclerView.setNestedScrollingEnabled(false);
-
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        List<String> input = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            input.add("Test" + i);
-        }
-
-        mAdapter = new RecyclerViewAdapter(input);
-        recyclerView.setAdapter(mAdapter);
 
     }
 
