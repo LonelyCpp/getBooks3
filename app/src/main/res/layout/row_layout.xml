@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fresco="http://schemas.android.com/apk/res-auto"
-                android:layout_width="wrap_content"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:id="@+id/row_container">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/bookCover"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="6dip"
+            fresco:placeholderImage="@drawable/ic_launcher_foreground"
+            fresco:roundAsCircle="true"
+            fresco:roundingBorderWidth="3dp"
+            fresco:roundingBorderColor="@color/primaryDarkColor"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toEndOf="@+id/bookCover"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/firstLine"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:gravity="center_vertical"
+                android:hint="Example application"
+                android:textSize="17sp"
+                android:textColor="@color/secondaryDarkColor"/>
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/bookCover"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="6dip"
-        android:contentDescription="TODO"
-        fresco:placeholderImage="@mipmap/ic_launcher"
-        fresco:roundAsCircle="true"
-
-        fresco:roundingBorderWidth="1dp"
-        fresco:roundingBorderColor="@color/primaryDarkColor"
-        />
-
-    <TextView
-        android:id="@+id/secondLine"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/firstLine"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/bookCover"
-        android:singleLine="true"
-        android:text="Description"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/firstLine"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toEndOf="@id/bookCover"
-        android:gravity="center_vertical"
-        android:text="Example application"
-        android:textSize="16sp" />
-
-
-</RelativeLayout>
+            <TextView
+                android:id="@+id/secondLine"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:textColor="@color/secondaryLightColor"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/LightGrey"
+         />
+</LinearLayout>

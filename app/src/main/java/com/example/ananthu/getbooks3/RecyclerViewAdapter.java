@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -32,6 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView txtHeader;
         public TextView txtFooter;
         public SimpleDraweeView bookCover;
+        public RelativeLayout rowContainer;
         public View layout;
 
         public ViewHolder(View v) {
@@ -40,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             txtHeader = v.findViewById(R.id.firstLine);
             txtFooter = v.findViewById(R.id.secondLine);
             bookCover = v.findViewById(R.id.bookCover);
+            rowContainer = v.findViewById(R.id.row_container);
         }
     }
 
@@ -72,10 +76,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // - replace the contents of the view with that element
         final Book book = values.get(position);
         holder.txtHeader.setText(book.getTitle());
-        holder.txtHeader.setOnClickListener(new View.OnClickListener() {
+        holder.rowContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO item click handler
+                Toast.makeText(v.getContext(), "you clicked " + book.getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 
