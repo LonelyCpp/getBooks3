@@ -7,6 +7,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by Ananthu on 26-05-2018.
  */
 
-public class Author {
+public class Author implements Serializable{
 
     private String name;
     private int id;

@@ -1,5 +1,6 @@
 package com.example.ananthu.getbooks3;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -80,7 +81,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 // TODO item click handler
-                Toast.makeText(v.getContext(), "you clicked " + book.getTitle(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(v.getContext(), "you clicked " + book.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(v.getContext(), BookViewActivity.class);
+                i.putExtra("book", book);
+                v.getContext().startActivity(i);
             }
         });
 

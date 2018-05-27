@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import static android.R.attr.tunerCount;
  * Created by Ananthu on 26-05-2018.
  */
 
-public class Book {
+public class Book implements Serializable{
     private int id;
     private int isbn;
     private String title;
