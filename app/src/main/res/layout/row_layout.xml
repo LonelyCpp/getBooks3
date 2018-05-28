@@ -20,7 +20,8 @@
             fresco:placeholderImage="@drawable/ic_launcher_foreground"
             fresco:roundAsCircle="true"
             fresco:roundingBorderWidth="3dp"
-            fresco:roundingBorderColor="@color/primaryDarkColor"/>
+            fresco:roundingBorderColor="@color/primaryDarkColor"
+            android:transitionName="book_cover_activity_transition"/>
 
         <LinearLayout
             android:layout_width="match_parent"

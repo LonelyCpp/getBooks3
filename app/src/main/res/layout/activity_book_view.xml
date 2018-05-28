@@ -3,21 +3,47 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.ananthu.getbooks3.BookViewActivity">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/bookCover"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="6dip"
+                fresco:placeholderImage="@drawable/ic_launcher_foreground"
+                fresco:roundAsCircle="true"
+                fresco:roundingBorderWidth="3dp"
+                fresco:roundingBorderColor="@color/primaryDarkColor"
+                android:transitionName="book_cover_activity_transition"/>
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/title_home"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

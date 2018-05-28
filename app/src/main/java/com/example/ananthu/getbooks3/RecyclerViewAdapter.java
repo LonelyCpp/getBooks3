@@ -1,5 +1,7 @@
 package com.example.ananthu.getbooks3;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +47,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             txtFooter = v.findViewById(R.id.secondLine);
             bookCover = v.findViewById(R.id.bookCover);
             rowContainer = v.findViewById(R.id.row_container);
+
+            // needed for fresco transition animation to work properly
+            // below line fixes disappearing image on return transition
+            bookCover.setLegacyVisibilityHandlingEnabled(true);
         }
     }
 
@@ -72,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final Book book = values.get(position);
@@ -80,11 +86,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.rowContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO item click handler
-                // Toast.makeText(v.getContext(), "you clicked " + book.getTitle(), Toast.LENGTH_SHORT).show();
+
                 Intent i = new Intent(v.getContext(), BookViewActivity.class);
                 i.putExtra("book", book);
-                v.getContext().startActivity(i);
+
+                // adds activity transition to book image
+                ActivityOptions options = ActivityOptions.
+                        makeSceneTransitionAnimation((Activity) v.getContext(),
+                                holder.bookCover,
+                                "book_cover_activity_transition");
+                v.getContext().startActivity(i, options.toBundle());
             }
         });
 
