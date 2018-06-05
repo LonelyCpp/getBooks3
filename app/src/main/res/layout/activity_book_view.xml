@@ -19,15 +19,19 @@
             android:orientation="vertical">
 
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <!--com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/bookCover"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="123dp"
+                android:layout_height="203dp"
                 android:layout_marginEnd="6dip"
-                fresco:placeholderImage="@drawable/ic_launcher_foreground"
-                fresco:roundAsCircle="true"
-                fresco:roundingBorderWidth="3dp"
-                fresco:roundingBorderColor="@color/primaryDarkColor"
+                android:transitionName="book_cover_activity_transition"
+                fresco:placeholderImage="@drawable/ic_launcher_foreground"/-->
+
+            <ImageView
+                android:id="@+id/bookCover"
+                android:layout_width="123dp"
+                android:layout_height="203dp"
+                android:layout_marginEnd="6dip"
                 android:transitionName="book_cover_activity_transition"/>
             <TextView
                 android:id="@+id/message"

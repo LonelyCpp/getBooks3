@@ -24,9 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.view.DraweeTransition;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -58,20 +55,6 @@ public class LandingPage extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Fresco.initialize(this);
-
-        // below two calls are required for transitions to work on fresco
-        getWindow().setSharedElementEnterTransition(
-                DraweeTransition.createTransitionSet(
-                        ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP
-                )
-        );
-        getWindow().setSharedElementReturnTransition(
-                DraweeTransition.createTransitionSet(
-                        ScalingUtils.ScaleType.FIT_CENTER,ScalingUtils.ScaleType.CENTER_CROP
-                )
-        );
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewLandingPage);
 

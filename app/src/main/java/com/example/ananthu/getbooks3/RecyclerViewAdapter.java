@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // each data item is just a string in this case
         public TextView txtHeader;
         public TextView txtFooter;
-        public SimpleDraweeView bookCover;
+        //public SimpleDraweeView bookCover;
+        public ImageView bookCover;
         public RelativeLayout rowContainer;
         public View layout;
 
@@ -47,10 +48,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             txtFooter = v.findViewById(R.id.secondLine);
             bookCover = v.findViewById(R.id.bookCover);
             rowContainer = v.findViewById(R.id.row_container);
-
-            // needed for fresco transition animation to work properly
-            // below line fixes disappearing image on return transition
-            bookCover.setLegacyVisibilityHandlingEnabled(true);
         }
     }
 
@@ -104,8 +101,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             authorNameList.add(i.getName());
         }
         holder.txtFooter.setText(TextUtils.join(", ", authorNameList));
-        holder.bookCover.setImageURI( Uri.parse(book.getImageUrl()) );
-
+        Picasso.get().load(book.getImageUrl()).into(holder.bookCover);
     }
 
     @Override

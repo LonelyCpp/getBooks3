@@ -6,16 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.view.DraweeTransition;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.picasso.Picasso;
 
 public class BookViewActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
-    public SimpleDraweeView bookCover;
+    public ImageView bookCover;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -42,18 +40,6 @@ public class BookViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_view);
-        
-        // below two calls are required for transitions to work on fresco
-        getWindow().setSharedElementEnterTransition(
-                DraweeTransition.createTransitionSet(
-                        ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP
-                )
-        );
-        getWindow().setSharedElementReturnTransition(
-                DraweeTransition.createTransitionSet(
-                        ScalingUtils.ScaleType.FIT_CENTER,ScalingUtils.ScaleType.CENTER_CROP
-                )
-        );
 
         mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -63,8 +49,7 @@ public class BookViewActivity extends AppCompatActivity {
         mTextMessage.setText(book.toString());
 
         bookCover = findViewById(R.id.bookCover);
-        bookCover.setImageURI( Uri.parse(book.getImageUrl()) );
-
+        Picasso.get().load(book.getImageUrl()).into(bookCover);
 
     }
 

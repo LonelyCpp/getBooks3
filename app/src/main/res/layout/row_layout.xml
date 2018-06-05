@@ -12,7 +12,7 @@
                     android:padding="10dp"
                     android:id="@+id/row_container">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <!-- com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/bookCover"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -21,6 +21,13 @@
             fresco:roundAsCircle="true"
             fresco:roundingBorderWidth="3dp"
             fresco:roundingBorderColor="@color/primaryDarkColor"
+            android:transitionName="book_cover_activity_transition"/ -->
+
+        <ImageView
+            android:id="@+id/bookCover"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="6dip"
             android:transitionName="book_cover_activity_transition"/>
 
         <LinearLayout
