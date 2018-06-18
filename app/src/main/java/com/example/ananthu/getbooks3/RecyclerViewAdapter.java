@@ -3,16 +3,16 @@ package com.example.ananthu.getbooks3;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,10 +36,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // each data item is just a string in this case
         public TextView txtHeader;
         public TextView txtFooter;
-        //public SimpleDraweeView bookCover;
         public ImageView bookCover;
         public RelativeLayout rowContainer;
         public View layout;
+        public RatingBar bookRating;
+        public TextView ratingCount;
 
         public ViewHolder(View v) {
             super(v);
@@ -48,6 +49,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             txtFooter = v.findViewById(R.id.secondLine);
             bookCover = v.findViewById(R.id.bookCover);
             rowContainer = v.findViewById(R.id.row_container);
+            bookRating = v.findViewById(R.id.bookRating);
+            ratingCount = v.findViewById(R.id.ratingCount);
+
+            bookRating.setIsIndicator(true);
+            bookRating.setMax(5);
+            bookRating.setNumStars(5);
+            bookRating.setStepSize((float) 0.01);
         }
     }
 
@@ -87,11 +95,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent i = new Intent(v.getContext(), BookViewActivity.class);
                 i.putExtra("book", book);
 
+                Pair<View, String> bookCover = Pair.create((View)holder.bookCover, "book_cover_activity_transition");
+
                 // adds activity transition to book image
                 ActivityOptions options = ActivityOptions.
-                        makeSceneTransitionAnimation((Activity) v.getContext(),
-                                holder.bookCover,
-                                "book_cover_activity_transition");
+                        makeSceneTransitionAnimation((Activity) v.getContext(), bookCover);
                 v.getContext().startActivity(i, options.toBundle());
             }
         });
@@ -102,6 +110,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         holder.txtFooter.setText(TextUtils.join(", ", authorNameList));
         Picasso.get().load(book.getImageUrl()).into(holder.bookCover);
+
+        holder.bookRating.setRating(Float.valueOf(String.valueOf(book.getAvgRating())));
+        holder.ratingCount.setText("(" + book.getReviewCount() + ")");
     }
 
     @Override

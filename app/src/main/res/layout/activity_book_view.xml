@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,50 +14,113 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <!--com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/bookCover"
-                android:layout_width="123dp"
-                android:layout_height="203dp"
-                android:layout_marginEnd="6dip"
-                android:transitionName="book_cover_activity_transition"
-                fresco:placeholderImage="@drawable/ic_launcher_foreground"/-->
-
-            <ImageView
-                android:id="@+id/bookCover"
-                android:layout_width="123dp"
-                android:layout_height="203dp"
-                android:layout_marginEnd="6dip"
-                android:transitionName="book_cover_activity_transition"/>
-            <TextView
-                android:id="@+id/message"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="@string/title_home"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                android:padding="4dp"
+                android:id="@+id/row_container">
 
+                <ImageView
+                    android:id="@+id/bookCover"
+                    android:layout_width="123dp"
+                    android:layout_height="203dp"
+                    android:layout_marginStart="6dip"
+                    android:transitionName="book_cover_activity_transition"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_toEndOf="@+id/bookCover"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:id="@+id/firstLine"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Example application"
+                        android:textSize="20sp"
+                        android:textColor="@color/secondaryDarkColor"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/secondLine"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Description"
+                        android:textColor="@color/secondaryLightColor"
+                        android:textSize="12sp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/bookRating"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:progressTint="@color/primaryDarkColor"
+                            android:secondaryProgressTint="@color/primaryDarkColor"
+                            android:layout_gravity="center"/>
+                        <TextView
+                            android:layout_marginStart="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/ratingCount"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/LightGrey"/>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descr"/>
+
+            <ToggleButton
+                android:id="@+id/descriptionToggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                android:textAlignment="viewStart"/>
+
+            <WebView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/webDescription"
+                android:visibility="gone"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+            <ToggleButton
+                android:id="@+id/authorToggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ToggleButton"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+            <ToggleButton
+                android:id="@+id/infoToggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ToggleButton"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
 
         </LinearLayout>
     </ScrollView>
-
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation"/>
 
 </android.support.constraint.ConstraintLayout>

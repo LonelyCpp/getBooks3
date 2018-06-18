@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -9,24 +8,13 @@
     <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="4dp"
                     android:id="@+id/row_container">
-
-        <!-- com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/bookCover"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="6dip"
-            fresco:placeholderImage="@drawable/ic_launcher_foreground"
-            fresco:roundAsCircle="true"
-            fresco:roundingBorderWidth="3dp"
-            fresco:roundingBorderColor="@color/primaryDarkColor"
-            android:transitionName="book_cover_activity_transition"/ -->
 
         <ImageView
             android:id="@+id/bookCover"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="100dp"
             android:layout_marginEnd="6dip"
             android:transitionName="book_cover_activity_transition"/>
 
@@ -53,6 +41,28 @@
                 android:hint="Description"
                 android:textColor="@color/secondaryLightColor"
                 android:textSize="12sp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/bookRating"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:progressTint="@color/primaryDarkColor"
+                    android:secondaryProgressTint="@color/primaryDarkColor"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_marginStart="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratingCount"/>
+            </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
     <View

@@ -32,6 +32,7 @@ public class Book implements Serializable{
     private Map<String, String> buyLinks;
     private double avgRating = 0;
     private int reviewCount = 0;
+    private String url;
 
     public Book(){}
 
@@ -57,6 +58,7 @@ public class Book implements Serializable{
             boolean buySet = false;
             boolean ratingSet = false;
             boolean revCountSet = false;
+            boolean urlSet = false;
 
             while (eventType != XmlPullParser.END_DOCUMENT){
                 String name;
@@ -93,6 +95,10 @@ public class Book implements Serializable{
                             this.smallImageUrl = parser.nextText();
                             smallImgSet = true;
                         }
+                        else if(name.equals("url") && !urlSet){
+                            this.url = parser.nextText();
+                            urlSet = true;
+                        }
                         else if(name.equals("description") && !despSet){
                             this.description = parser.nextText();
                             despSet = true;
@@ -123,7 +129,7 @@ public class Book implements Serializable{
                         }
 
                         else if(idSet && isbnSet && titleSet && imgSet && smallImgSet
-                                && despSet && tpSet && ratingSet && revCountSet){
+                                && despSet && tpSet && ratingSet && revCountSet && urlSet){
                             return;
                         }
                         break;
@@ -255,6 +261,7 @@ public class Book implements Serializable{
                 //", buyLinks=" + buyLinks +
                 ", avgRating=" + avgRating +
                 ", reviewCount=" + reviewCount +
+                ", url=" + url +
                 '}';
     }
 }
