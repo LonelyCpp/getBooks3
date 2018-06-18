@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecyclerViewAdapter.MyViewHolder>{
@@ -35,6 +37,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Author a = authorList.get(position);
         holder.name.setText(a.getName());
+        Picasso.get().load(a.getImg()).transform(new CircleTransform()).into(holder.image);
     }
 
     @Override

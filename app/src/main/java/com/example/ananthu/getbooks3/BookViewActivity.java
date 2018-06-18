@@ -133,7 +133,7 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
             } else if(buttonView.getId() == R.id.infoToggle){
                 moreInfo.setVisibility(View.VISIBLE);
             } else if(buttonView.getId() == R.id.authorToggle){
-                //recyclerView.setVisibility(View.VISIBLE);
+                rv.setVisibility(View.VISIBLE);
             }
         } else {
             buttonView.setCompoundDrawablesWithIntrinsicBounds
@@ -144,7 +144,7 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
             } else if(buttonView.getId() == R.id.infoToggle){
                 moreInfo.setVisibility(View.GONE);
             } else if(buttonView.getId() == R.id.authorToggle){
-               //recyclerView.setVisibility(View.GONE);
+               rv.setVisibility(View.GONE);
             }
         }
     }

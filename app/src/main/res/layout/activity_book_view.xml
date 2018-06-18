@@ -14,13 +14,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
 
             <RelativeLayout
+                android:id="@+id/row_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:id="@+id/row_container">
+                android:padding="4dp">
 
                 <ImageView
                     android:id="@+id/bookCover"
@@ -32,10 +33,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_toEndOf="@+id/bookCover"
                     android:layout_centerInParent="true"
-                    android:layout_marginStart="8dp">
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/bookCover"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/firstLine"
@@ -43,8 +44,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:hint="Example application"
-                        android:textSize="20sp"
                         android:textColor="@color/secondaryDarkColor"
+                        android:textSize="20sp"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -65,15 +66,16 @@
                             style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:progressTint="@color/primaryDarkColor"
-                            android:secondaryProgressTint="@color/primaryDarkColor"
-                            android:layout_gravity="center"/>
+                            android:secondaryProgressTint="@color/primaryDarkColor"/>
+
                         <TextView
-                            android:layout_marginStart="4dp"
+                            android:id="@+id/ratingCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/ratingCount"/>
+                            android:layout_marginStart="4dp"/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -85,13 +87,13 @@
 
             <ToggleButton
                 android:id="@+id/descriptionToggle"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24px"
                 android:textAlignment="viewStart"
-                android:textOn="Description"
-                android:textOff="Description"/>
+                android:textOff="Description"
+                android:textOn="Description"/>
 
             <TextView
                 android:id="@+id/webDescription"
@@ -105,30 +107,31 @@
 
             <ToggleButton
                 android:id="@+id/authorToggle"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24px"
                 android:textAlignment="viewStart"
-                android:textOn="Author"
-                android:textOff="Author"/>
+                android:textOff="Author"
+                android:textOn="Author"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"/>
+                android:scrollbars="vertical"
+                android:visibility="gone"/>
 
 
             <ToggleButton
                 android:id="@+id/infoToggle"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24px"
                 android:textAlignment="viewStart"
-                android:textOn="More Information"
-                android:textOff="More Information"/>
+                android:textOff="More Information"
+                android:textOn="More Information"/>
 
             <LinearLayout
                 android:id="@+id/moreInfo"
@@ -143,23 +146,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ISBN"
                         android:layout_margin="3dp"
+                        android:layout_weight="0.5"
                         android:gravity="center|start"
-                        android:layout_weight="0.5"/>
+                        android:text="ISBN"/>
 
                     <TextView
                         android:id="@+id/isbn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1231231"
-                        android:textColor="@color/Black"
                         android:layout_margin="3dp"
+                        android:layout_weight="0.5"
                         android:gravity="center|start"
-                        android:layout_weight="0.5"/>
+                        android:text="1231231"
+                        android:textColor="@color/Black"/>
                 </LinearLayout>
 
                 <View
@@ -171,23 +175,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Number of Pages"
                         android:layout_margin="3dp"
+                        android:layout_weight="0.5"
                         android:gravity="center|start"
-                        android:layout_weight="0.5"/>
+                        android:text="Number of Pages"/>
 
                     <TextView
                         android:id="@+id/totalPages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="123123"
-                        android:textColor="@color/Black"
                         android:layout_margin="3dp"
+                        android:layout_weight="0.5"
                         android:gravity="center|start"
-                        android:layout_weight="0.5"/>
+                        android:text="123123"
+                        android:textColor="@color/Black"/>
                 </LinearLayout>
 
                 <View
@@ -196,32 +201,33 @@
                     android:background="@color/LightGrey"/>
 
                 <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Goodreads Link"
-                    android:layout_margin="3dp"
-                    android:gravity="center|start"
-                    android:layout_weight="0.5"/>
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/url"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="0.5"
+                        android:gravity="center|start"
+                        android:text="Goodreads Link"/>
+
+                    <TextView
+                        android:id="@+id/url"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="0.5"
+                        android:gravity="center|start"
+                        android:text="http//asdasasda.com"
+                        android:textColor="@color/DarkBlue"/>
+                </LinearLayout>
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="http//asdasasda.com"
-                    android:textColor="@color/DarkBlue"
-                    android:layout_margin="3dp"
-                    android:gravity="center|start"
-                    android:layout_weight="0.5"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/LightGrey"/>
+                    android:layout_height="0.5dp"
+                    android:background="@color/LightGrey"/>
 
 
             </LinearLayout>
