@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,6 +44,9 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
     private LinearLayout moreInfo;
     private TextView url;
 
+    private RecyclerView rv;
+    private AuthorRecyclerViewAdapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
 
 
@@ -50,6 +55,14 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_view);
         final Book book = (Book) getIntent().getSerializableExtra("book");
+
+        List<Author> authorList = book.getAuthors();
+        rv = (RecyclerView) findViewById(R.id.recycler_view);
+        AuthorRecyclerViewAdapter ca = new AuthorRecyclerViewAdapter(authorList);
+        rv.setAdapter(ca);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(llm);
 
         webDescription = findViewById(R.id.webDescription);
         webDescription.setText(Html.fromHtml(book.getDescription()));
@@ -119,6 +132,8 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
                 webDescription.setVisibility(View.VISIBLE);
             } else if(buttonView.getId() == R.id.infoToggle){
                 moreInfo.setVisibility(View.VISIBLE);
+            } else if(buttonView.getId() == R.id.authorToggle){
+                //recyclerView.setVisibility(View.VISIBLE);
             }
         } else {
             buttonView.setCompoundDrawablesWithIntrinsicBounds
@@ -128,6 +143,8 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
                 webDescription.setVisibility(View.GONE);
             } else if(buttonView.getId() == R.id.infoToggle){
                 moreInfo.setVisibility(View.GONE);
+            } else if(buttonView.getId() == R.id.authorToggle){
+               //recyclerView.setVisibility(View.GONE);
             }
         }
     }
