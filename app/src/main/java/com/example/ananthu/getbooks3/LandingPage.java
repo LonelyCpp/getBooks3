@@ -25,8 +25,6 @@ import java.util.List;
 public class LandingPage extends AppCompatActivity {
 
     private final int INTERNET_PERMISSION = 1;
-    public RequestQueue requestQueue;
-    //private TextView testTV;
     private GoodreadRequest mGoodreadRequest;
     List<Book> books = new ArrayList<>();
 
@@ -62,8 +60,7 @@ public class LandingPage extends AppCompatActivity {
 
 
         requestInternetPermission();
-        requestQueue = Volley.newRequestQueue(this);
-        //testTV = findViewById(R.id.testTextView);
+
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
 
         for(int i = 0; i < randomBookIds.size(); i++){

@@ -25,6 +25,8 @@
             android:name=".BookViewActivity"
             android:label="@string/title_activity_book_view">
         </activity>
+        <activity android:name=".AuthorViewActivity">
+        </activity>
     </application>
 
 </manifest>

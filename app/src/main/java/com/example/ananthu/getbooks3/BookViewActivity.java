@@ -1,7 +1,6 @@
 package com.example.ananthu.getbooks3;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +10,6 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,7 +42,7 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
     private LinearLayout moreInfo;
     private TextView url;
 
-    private RecyclerView rv;
+    private RecyclerView authorRecyclerView;
     private AuthorRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -57,12 +55,13 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
         final Book book = (Book) getIntent().getSerializableExtra("book");
 
         List<Author> authorList = book.getAuthors();
-        rv = (RecyclerView) findViewById(R.id.recycler_view);
+        authorRecyclerView = findViewById(R.id.recycler_view);
         AuthorRecyclerViewAdapter ca = new AuthorRecyclerViewAdapter(authorList);
-        rv.setAdapter(ca);
+        authorRecyclerView.setAdapter(ca);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(llm);
+        authorRecyclerView.setLayoutManager(llm);
+        authorRecyclerView.setNestedScrollingEnabled(false);
 
         webDescription = findViewById(R.id.webDescription);
         webDescription.setText(Html.fromHtml(book.getDescription()));
@@ -133,7 +132,7 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
             } else if(buttonView.getId() == R.id.infoToggle){
                 moreInfo.setVisibility(View.VISIBLE);
             } else if(buttonView.getId() == R.id.authorToggle){
-                rv.setVisibility(View.VISIBLE);
+                authorRecyclerView.setVisibility(View.VISIBLE);
             }
         } else {
             buttonView.setCompoundDrawablesWithIntrinsicBounds
@@ -144,7 +143,7 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
             } else if(buttonView.getId() == R.id.infoToggle){
                 moreInfo.setVisibility(View.GONE);
             } else if(buttonView.getId() == R.id.authorToggle){
-               rv.setVisibility(View.GONE);
+               authorRecyclerView.setVisibility(View.GONE);
             }
         }
     }

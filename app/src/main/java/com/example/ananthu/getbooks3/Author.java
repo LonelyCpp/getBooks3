@@ -20,6 +20,8 @@ public class Author implements Serializable{
     private String name;
     private int id;
     private String img;
+    private String about;
+    private List<Integer> bookIds;
 
     public Author(){}
 
@@ -27,12 +29,17 @@ public class Author implements Serializable{
         this.name = name;
         this.id = id;
         this.img = img;
+        bookIds = new ArrayList<>();
+        about = "";
     }
 
+    /*
+     * Uses the get-book API to get some basic info of the author
+     * gets name, is, image url
+     */
+    public static List<Author> getAuthorsUsingBookAPI(String xmlString){
 
-    public static List<Author> getAuthors(String xmlString){
-
-        Log.d("method", "entered getAuthors");
+        Log.d("method", "entered getAuthorsUsingBookAPI");
         List<Author> authorList = new ArrayList<>();
         XmlPullParserFactory pullParserFactory;
 
@@ -114,11 +121,82 @@ public class Author implements Serializable{
             e.printStackTrace();
         } finally {
 
-            Log.d("method", "exit getAuthors");
+            Log.d("method", "exit getAuthorsUsingBookAPI");
             return authorList;
 
         }
 
+
+    }
+
+    public void getFullDetails(String xmlString){
+
+        Log.d("method", "entered getFullDetails");
+        XmlPullParserFactory pullParserFactory;
+        bookIds = new ArrayList<>();
+
+        try {
+            pullParserFactory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = pullParserFactory.newPullParser();
+
+            StringReader in_s = new StringReader(xmlString);
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(in_s);
+
+            int eventType = parser.getEventType();
+            boolean decSet = false;
+            boolean inBooks = false;
+
+            while (eventType != XmlPullParser.END_DOCUMENT){
+                String tagName;
+
+                switch (eventType){
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        tagName = parser.getName();
+
+                        if(tagName.equals("books") || inBooks){
+                            inBooks = true;
+                        }
+                        else if(tagName.equals("about")){
+                            Log.d("parser", "set about");
+                            this.about = parser.nextText();
+                        }
+                        else {
+                            eventType = parser.next();
+                            continue;
+                        }
+
+                        Log.d("parser", tagName);
+                        Log.d("parser", "entered books");
+                        if(tagName.equals("id")){
+                            Log.d("parser", "set id");
+                            String id = parser.nextText();
+                            bookIds.add(Integer.parseInt(id));
+                        }
+                        break;
+
+                    //parser stops as author end tag is encountered
+                    case XmlPullParser.END_TAG:
+                        if(parser.getName().equals("books")){
+                            return;
+                        }
+                        break;
+                }
+                eventType = parser.next();
+            }
+
+        } catch (XmlPullParserException e) {
+
+            e.printStackTrace();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        } finally {
+            Log.d("method", "exit getFullDetails");
+
+        }
 
     }
 
@@ -146,12 +224,32 @@ public class Author implements Serializable{
         this.img = img;
     }
 
+
+    public List<Integer> getBookIds() {
+        return bookIds;
+    }
+
+    public void setBookIds(List<Integer> bookIds) {
+        this.bookIds = bookIds;
+    }
+
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
                 ", img='" + img + '\'' +
+                ", description='" + about + '\'' +
+                ", bookIds=" + bookIds +
                 '}';
     }
 }

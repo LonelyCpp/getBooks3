@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ananthu.getbooks3.BookViewActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
+
+            <RelativeLayout
+                android:id="@+id/row_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp">
+
+                <ImageView
+                    android:id="@+id/authorImage"
+                    android:layout_width="123dp"
+                    android:layout_height="203dp"
+                    android:layout_marginStart="6dip"
+                    android:transitionName="book_cover_activity_transition"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/authorImage"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/firstLine"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Example application"
+                        android:textColor="@color/secondaryDarkColor"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/LightGrey"/>
+
+            <ToggleButton
+                android:id="@+id/aboutToggle"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_down_24px"
+                android:textAlignment="viewStart"
+                android:textOff="About"
+                android:textOn="About"
+                android:checked="true"/>
+
+            <TextView
+                android:id="@+id/webAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:paddingStart="37dp"
+                android:text="TextView"
+                android:visibility="visible"/>
+
+
+            <ToggleButton
+                android:id="@+id/bookToggle"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_down_24px"
+                android:textAlignment="viewStart"
+                android:textOff="Book"
+                android:textOn="Book"
+                android:checked="true"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:visibility="visible"
+                android:layout_marginStart="30dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

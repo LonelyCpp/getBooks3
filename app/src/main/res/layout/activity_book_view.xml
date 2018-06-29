@@ -90,10 +90,11 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_down_24px"
                 android:textAlignment="viewStart"
                 android:textOff="Description"
-                android:textOn="Description"/>
+                android:textOn="Description"
+                android:checked="true"/>
 
             <TextView
                 android:id="@+id/webDescription"
@@ -102,7 +103,7 @@
                 android:paddingEnd="20dp"
                 android:paddingStart="37dp"
                 android:text="TextView"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
 
             <ToggleButton
@@ -110,17 +111,18 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_down_24px"
                 android:textAlignment="viewStart"
                 android:textOff="Author"
-                android:textOn="Author"/>
+                android:textOn="Author"
+                android:checked="true"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
 
             <ToggleButton
@@ -128,10 +130,11 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_down_24px"
                 android:textAlignment="viewStart"
                 android:textOff="More Information"
-                android:textOn="More Information"/>
+                android:textOn="More Information"
+                android:checked="true"/>
 
             <LinearLayout
                 android:id="@+id/moreInfo"
@@ -140,7 +143,7 @@
                 android:orientation="vertical"
                 android:paddingEnd="20dp"
                 android:paddingStart="37dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
