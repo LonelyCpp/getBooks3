@@ -5,11 +5,27 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ananthu.getbooks3.BookViewActivity">
+    tools:context="com.example.ananthu.getbooks3.BookViewActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ProgressBar
+        android:id="@+id/loading_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/primaryDarkColor"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
     <ScrollView
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,38 +33,54 @@
             android:orientation="vertical"
             android:paddingBottom="30dp">
 
-            <RelativeLayout
-                android:id="@+id/row_container"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="4dp">
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:background="@color/secondaryColor"
+                android:paddingBottom="6dp">
 
                 <ImageView
                     android:id="@+id/authorImage"
-                    android:layout_width="123dp"
-                    android:layout_height="203dp"
-                    android:layout_marginStart="6dip"
-                    android:transitionName="book_cover_activity_transition"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@+id/authorImage"
-                    android:orientation="vertical">
+                    android:transitionName="book_cover_activity_transition"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"/>
 
-                    <TextView
-                        android:id="@+id/firstLine"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:hint="Example application"
-                        android:textColor="@color/secondaryDarkColor"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
-                </LinearLayout>
-            </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/firstLine"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/LightGrey"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="5dp"
+                    />
+
+                <ToggleButton
+                    android:id="@+id/favorite_toggle"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:textColor="@drawable/fav_selector"
+                    android:background="@color/secondaryColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textOn="Favorite"
+                    android:textOff="Favorite"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:drawableStart="@drawable/ic_baseline_stars_grey_14px"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -83,8 +115,8 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_baseline_keyboard_arrow_down_24px"
                 android:textAlignment="viewStart"
-                android:textOff="Book"
-                android:textOn="Book"
+                android:textOff="Related Books"
+                android:textOn="Related Books"
                 android:checked="true"/>
 
             <android.support.v7.widget.RecyclerView

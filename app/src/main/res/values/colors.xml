@@ -152,4 +152,7 @@
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
     <color name="backgroundHoloLight">#fff3f3f3</color>
+
+    <color name="grey10">#20D3D3D3</color>
+    <color name="gold45">#70FFD700</color>
 </resources>
