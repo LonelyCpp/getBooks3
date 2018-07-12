@@ -40,7 +40,8 @@
                 android:layout_gravity="center"
                 android:orientation="vertical"
                 android:background="@color/secondaryColor"
-                android:paddingBottom="6dp">
+                android:paddingBottom="6dp"
+                android:paddingTop="8dp">
 
                 <ImageView
                     android:id="@+id/authorImage"

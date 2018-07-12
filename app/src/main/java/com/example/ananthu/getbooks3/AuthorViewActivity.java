@@ -89,7 +89,11 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
     public void updateDetails(Author author){
         authorName.setText(author.getName());
-        Picasso.get().load(author.getImg()).transform(new CircleTransform()).into(authorImage);
+        Picasso
+                .get()
+                .load(author.getImg())
+                .transform(new CircleTransform())
+                .into(authorImage);
         about.setText(Html.fromHtml(author.getAbout()));
 
         List<Integer> bookIds = author.getBookIds();

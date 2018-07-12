@@ -44,7 +44,11 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final Author a = authorList.get(position);
         holder.name.setText(a.getName());
-        Picasso.get().load(a.getImg()).transform(new CircleTransform()).into(holder.image);
+        Picasso
+            .get()
+            .load(a.getImg())
+            .transform(new CircleTransform())
+            .into(holder.image);
 
         holder.row.setOnClickListener(new View.OnClickListener() {
             @Override

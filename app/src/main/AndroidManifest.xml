@@ -27,6 +27,8 @@
         </activity>
         <activity android:name=".AuthorViewActivity">
         </activity>
+        <activity android:name=".SearchActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -59,6 +59,12 @@ public class GoodreadRequest {
         request(url, callback);
     }
 
+    public void searchBook(String query, final SuccessFailedCallback callback){
+
+        String url = "https://www.goodreads.com/search/index.xml?q=" + query + "&key=" + key;
+        request(url, callback);
+    }
+
 
     public String getKey() {
         return key;

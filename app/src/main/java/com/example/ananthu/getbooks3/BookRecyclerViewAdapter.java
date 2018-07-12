@@ -110,8 +110,13 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
         holder.txtFooter.setText(TextUtils.join(", ", authorNameList));
         Picasso.get().load(book.getImageUrl()).into(holder.bookCover);
 
-        holder.bookRating.setRating(Float.valueOf(String.valueOf(book.getAvgRating())));
-        holder.ratingCount.setText("(" + book.getReviewCount() + ")");
+        try {
+            holder.bookRating.setRating(Float.valueOf(String.valueOf(book.getAvgRating())));
+            holder.ratingCount.setText("(" + book.getReviewCount() + ")");
+        } catch (NullPointerException ex){
+            holder.bookRating.setVisibility(View.GONE);
+            holder.ratingCount.setVisibility(View.GONE);
+        }
     }
 
     @Override
