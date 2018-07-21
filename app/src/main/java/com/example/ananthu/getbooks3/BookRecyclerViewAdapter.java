@@ -27,16 +27,21 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
 
     private List<Book> values;
 
-    public BookRecyclerViewAdapter(List<Book> myDataset) {
+    BookRecyclerViewAdapter(List<Book> myDataset) {
         values = myDataset;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public void clear(){
+        values = new ArrayList<>();
+        notifyDataSetChanged();
+    }
 
-        public TextView txtHeader;
-        public TextView txtFooter;
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView txtHeader;
+        TextView txtFooter;
+        RelativeLayout rowContainer;
         public ImageView bookCover;
-        public RelativeLayout rowContainer;
         public View layout;
         public RatingBar bookRating;
         public TextView ratingCount;
@@ -77,8 +82,7 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
         View v =
                 inflater.inflate(R.layout.book_row_layout, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override

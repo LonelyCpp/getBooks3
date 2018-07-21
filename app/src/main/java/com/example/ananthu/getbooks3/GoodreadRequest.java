@@ -50,18 +50,23 @@ public class GoodreadRequest {
     }
 
     public void getBook(Integer id, final SuccessFailedCallback callback){
+
         String url = "https://www.goodreads.com/book/show/" + id +".xml?key=" + key;
+        Log.d("request", "getBook " + url);
         request(url, callback);
     }
 
     public void getAuthor(Integer id, final SuccessFailedCallback callback){
+
         String url = "https://www.goodreads.com/author/show/" + id +"?format=xml&key=" + key;
+        Log.d("request", "getAuthor " + url);
         request(url, callback);
     }
 
     public void searchBook(String query, final SuccessFailedCallback callback){
 
         String url = "https://www.goodreads.com/search/index.xml?q=" + query + "&key=" + key;
+        Log.d("request", "searchBook " + url);
         request(url, callback);
     }
 

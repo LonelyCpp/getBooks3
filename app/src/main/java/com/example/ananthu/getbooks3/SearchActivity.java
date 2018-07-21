@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -23,6 +24,9 @@ public class SearchActivity extends AppCompatActivity {
     private List<Book> books = new ArrayList<>();
     private GoodreadRequest mGoodreadRequest;
     private BookRecyclerViewAdapter mAdapter;
+    private SearchView bookSearch;
+    private RecyclerView recyclerView;
+    private ProgressBar loadingIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,8 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
 
-        RecyclerView recyclerView = findViewById(R.id.book_recycler_view);
+        recyclerView = findViewById(R.id.book_recycler_view);
+        loadingIcon = findViewById(R.id.loading_icon);
 
         // for smooth scrolling in recycler view
         recyclerView.setNestedScrollingEnabled(false);
@@ -42,13 +47,17 @@ public class SearchActivity extends AppCompatActivity {
         mAdapter = new BookRecyclerViewAdapter(books);
         recyclerView.setAdapter(mAdapter);
 
-        final SearchView bookSearch = findViewById(R.id.book_search);
+        bookSearch = findViewById(R.id.book_search);
 
         bookSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                query.replaceAll(" ", "+");
+                query = query.replaceAll(" ", "+");
                 Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+                loadingIcon.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                mAdapter.clear();
+
                 mGoodreadRequest.searchBook(query, new SuccessFailedCallback() {
                     @Override
                     public void success(String response) {
@@ -59,6 +68,9 @@ public class SearchActivity extends AppCompatActivity {
                             mGoodreadRequest.getBook(books.get(i), new SuccessFailedCallback() {
                                 @Override
                                 public void success(String response) {
+
+                                    loadingIcon.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
 
                                     Book book = new Book(response);
                                     mAdapter.add(book);
