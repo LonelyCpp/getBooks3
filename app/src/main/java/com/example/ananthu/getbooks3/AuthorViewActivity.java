@@ -23,7 +23,7 @@ import java.util.List;
 
 public class AuthorViewActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
-
+    private Author author;
     private ImageView authorImage;
     private TextView authorName;
     private TextView about;
@@ -34,11 +34,13 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
     private BookRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     GoodreadRequest mGoodreadRequest;
+    private InternalStorage cache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_author_view);
+        cache = new InternalStorage(this);
 
         authorName = findViewById(R.id.firstLine);
         authorImage = findViewById(R.id.authorImage);
@@ -65,24 +67,27 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
         favoriteToggle.setOnCheckedChangeListener(this);
 
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
-        final Author author = (Author) getIntent().getSerializableExtra("author");
-        final ScrollView content = findViewById(R.id.content);
-        final ProgressBar loadingIcon = findViewById(R.id.loading_icon);
+        author = (Author) getIntent().getSerializableExtra("author");
 
-        mGoodreadRequest.getAuthor(author.getId(), new SuccessFailedCallback() {
-            @Override
-            public void success(String response) {
-                author.getFullDetails(response);
-                updateDetails(author);
-                content.setVisibility(View.VISIBLE);
-                loadingIcon.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void failed() {
-                Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT);
-            }
-        });
+        if(cache.getCachedAuthorById(author.getId()) == null){
+            mGoodreadRequest.getAuthor(author.getId(), new SuccessFailedCallback() {
+                @Override
+                public void success(String response) {
+                    author.getFullDetails(response);
+                    cache.cacheAuthor(author);
+                    updateDetails(author);
+                }
+
+                @Override
+                public void failed() {
+                    Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT);
+                }
+            });
+        } else {
+            author = cache.getCachedAuthorById(author.getId());
+            updateDetails(author);
+        }
 
 
     }
@@ -100,21 +105,30 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
         for(int i = 0; i < Math.min(6, bookIds.size()); i++){
 
-            mGoodreadRequest.getBook(bookIds.get(i), new SuccessFailedCallback() {
-                @Override
-                public void success(String response) {
+            if(cache.getCachedBookById(bookIds.get(i)) == null){
+                mGoodreadRequest.getBook(bookIds.get(i), new SuccessFailedCallback() {
+                    @Override
+                    public void success(String response) {
 
-                    Book book = new Book(response);
-                    //testTV.setText(test.toString());
-                    mAdapter.add(book);
-                }
+                        Book book = new Book(response);
+                        cache.cacheBook(book);
+                        mAdapter.add(book);
+                    }
 
-                @Override
-                public void failed() {
-                   Log.e("request", "error getting book from id");
-                }
-            });
+                    @Override
+                    public void failed() {
+                        Log.e("request", "error getting book from id");
+                    }
+                });
+            } else {
+                mAdapter.add(cache.getCachedBookById(bookIds.get(i)));
+            }
+
         }
+
+        findViewById(R.id.content).setVisibility(View.VISIBLE);;
+        findViewById(R.id.loading_icon).setVisibility(View.GONE);
+
     }
 
     @Override

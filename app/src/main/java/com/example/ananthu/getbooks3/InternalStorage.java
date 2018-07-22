@@ -60,6 +60,23 @@ public class InternalStorage{
         return null;
     }
 
+    public void cacheAuthor(Author author){
+
+        try {
+            authorCache.put(author.getId(), author);
+            InternalStorage.writeObject(mContext, InternalStorage.AUTHOR_CACHE, authorCache);
+        } catch (IOException err){
+            Log.d("cache", "cannot write into storage");
+        }
+    }
+
+    public Author getCachedAuthorById(Integer id){
+        if(authorCache.containsKey(id)){
+            return authorCache.get(id);
+        }
+        return null;
+    }
+
     public static void writeObject(Context context, String key, Object object) throws IOException {
         FileOutputStream fos = context.openFileOutput(key, Context.MODE_PRIVATE);
         ObjectOutputStream oos = new ObjectOutputStream(fos);

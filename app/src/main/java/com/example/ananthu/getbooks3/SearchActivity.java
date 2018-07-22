@@ -27,11 +27,13 @@ public class SearchActivity extends AppCompatActivity {
     private SearchView bookSearch;
     private RecyclerView recyclerView;
     private ProgressBar loadingIcon;
+    private InternalStorage cache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        cache = new InternalStorage(this);
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
 
         recyclerView = findViewById(R.id.book_recycler_view);
@@ -61,29 +63,37 @@ public class SearchActivity extends AppCompatActivity {
                 mGoodreadRequest.searchBook(query, new SuccessFailedCallback() {
                     @Override
                     public void success(String response) {
-                        List<Integer> books = getBookIdsFromSearchResults(response);
+                        List<Integer> bookIds = getBookIdsFromSearchResults(response);
 
-                        for(int i = 0; i < books.size(); i++){
+                        for(int i = 0; i < bookIds.size(); i++){
 
-                            mGoodreadRequest.getBook(books.get(i), new SuccessFailedCallback() {
-                                @Override
-                                public void success(String response) {
+                            if(cache.getCachedBookById(bookIds.get(i)) == null){
+                                mGoodreadRequest.getBook(bookIds.get(i), new SuccessFailedCallback() {
+                                    @Override
+                                    public void success(String response) {
 
-                                    loadingIcon.setVisibility(View.GONE);
-                                    recyclerView.setVisibility(View.VISIBLE);
+                                        loadingIcon.setVisibility(View.GONE);
+                                        recyclerView.setVisibility(View.VISIBLE);
 
-                                    Book book = new Book(response);
-                                    mAdapter.add(book);
-                                }
+                                        Book book = new Book(response);
+                                        mAdapter.add(book);
+                                    }
 
-                                @Override
-                                public void failed() {
-                                    Toast.makeText(
-                                            getApplicationContext(),
-                                            "some error occurred",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                    @Override
+                                    public void failed() {
+                                        Toast.makeText(
+                                                getApplicationContext(),
+                                                "some error occurred",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                mAdapter.add(cache.getCachedBookById(bookIds.get(i)));
+
+                                loadingIcon.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     }
 
