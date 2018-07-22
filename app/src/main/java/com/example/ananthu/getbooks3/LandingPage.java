@@ -11,22 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +31,7 @@ public class LandingPage extends AppCompatActivity {
     private InternalStorage caache;
     List<Book> books = new ArrayList<>();
 
-    private List<Integer> randomBookIds = new ArrayList<>(
+    private List<Integer> favBookIds = new ArrayList<>(
             Arrays.asList(
                     30256224, 30688013, 22535503,
                     22557272, 31848288, 31208653,
@@ -58,9 +51,6 @@ public class LandingPage extends AppCompatActivity {
 
         caache = new InternalStorage(this);
 
-        String test = new Gson().toJson(new Author());
-        Author author = new Gson().fromJson(test, Author.class);
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewLandingPage);
 
         // for smooth scrolling in recycler view
@@ -78,11 +68,29 @@ public class LandingPage extends AppCompatActivity {
 
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
 
-        for(int i = 0; i < randomBookIds.size(); i++){
 
-            if(caache.getCachedBookById(randomBookIds.get(i)) == null){
+        loadFavBooks();
 
-                mGoodreadRequest.getBook(randomBookIds.get(i), new SuccessFailedCallback() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+            }
+        });
+
+
+
+    }
+    
+
+    private void loadFavBooks(){
+        favBookIds = caache.getFavListCache();
+        for(int i = 0; i < favBookIds.size(); i++){
+
+            if(caache.getCachedBookById(favBookIds.get(i)) == null){
+
+                mGoodreadRequest.getBook(favBookIds.get(i), new SuccessFailedCallback() {
                     @Override
                     public void success(String response) {
 
@@ -102,22 +110,10 @@ public class LandingPage extends AppCompatActivity {
                 });
 
             } else{
-                mAdapter.add(caache.getCachedBookById(randomBookIds.get(i)));
+                mAdapter.add(caache.getCachedBookById(favBookIds.get(i)));
             }
 
         }
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-            }
-        });
-
-
-
     }
 
     @Override

@@ -25,6 +25,7 @@ import java.util.List;
 
 public class BookViewActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
+    private Book book;
     private TextView description;
     private TextView txtHeader;
     private TextView txtFooter;
@@ -42,17 +43,18 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
     private LinearLayout moreInfo;
     private TextView url;
 
+    private InternalStorage cache;
     private RecyclerView authorRecyclerView;
     private AuthorRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_view);
-        final Book book = (Book) getIntent().getSerializableExtra("book");
+        cache = new InternalStorage(this);
+        book = (Book) getIntent().getSerializableExtra("book");
 
         List<Author> authorList = book.getAuthors();
         authorRecyclerView = findViewById(R.id.recycler_view);
@@ -119,6 +121,14 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
                 startActivity(browserIntent);
             }
         });
+
+        ToggleButton fav = findViewById(R.id.favorite_toggle);
+        fav.setOnCheckedChangeListener(this);
+        if(cache.isFavorite(book.getId())){
+            fav.setChecked(true);
+            fav.setCompoundDrawablesWithIntrinsicBounds
+                    (R.drawable.ic_baseline_stars_gold_14px, 0, 0, 0);
+        }
     }
 
     @Override
@@ -133,6 +143,13 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
                 moreInfo.setVisibility(View.VISIBLE);
             } else if(buttonView.getId() == R.id.authorToggle){
                 authorRecyclerView.setVisibility(View.VISIBLE);
+            } else if(buttonView.getId() == R.id.favorite_toggle){
+                buttonView.setCompoundDrawablesWithIntrinsicBounds
+                        (R.drawable.ic_baseline_stars_gold_14px, 0, 0, 0);
+
+                if(cache.isFavorite(book.getId()) == false){
+                    cache.addToFavList(book.getId());
+                }
             }
         } else {
             buttonView.setCompoundDrawablesWithIntrinsicBounds
@@ -144,6 +161,11 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
                 moreInfo.setVisibility(View.GONE);
             } else if(buttonView.getId() == R.id.authorToggle){
                authorRecyclerView.setVisibility(View.GONE);
+            } else if(buttonView.getId() == R.id.favorite_toggle){
+                buttonView.setCompoundDrawablesWithIntrinsicBounds
+                        (R.drawable.ic_baseline_stars_grey_14px, 0, 0, 0);
+
+                cache.removeFromFavList(book.getId());
             }
         }
     }

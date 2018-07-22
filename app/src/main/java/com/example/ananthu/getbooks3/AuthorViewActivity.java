@@ -60,11 +60,11 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
         webAbout = findViewById(R.id.webAbout);
         ToggleButton aboutToggle = findViewById(R.id.aboutToggle);
         ToggleButton bookToggle = findViewById(R.id.bookToggle);
-        ToggleButton favoriteToggle = findViewById(R.id.favorite_toggle);
+
 
         aboutToggle.setOnCheckedChangeListener(this);
         bookToggle.setOnCheckedChangeListener(this);
-        favoriteToggle.setOnCheckedChangeListener(this);
+
 
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
         author = (Author) getIntent().getSerializableExtra("author");
@@ -142,9 +142,6 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
                 buttonView.setCompoundDrawablesWithIntrinsicBounds
                         (R.drawable.ic_baseline_keyboard_arrow_down_24px, 0, 0, 0);
                 recyclerView.setVisibility(View.VISIBLE);
-            } else if(buttonView.getId() == R.id.favorite_toggle){
-                buttonView.setCompoundDrawablesWithIntrinsicBounds
-                        (R.drawable.ic_baseline_stars_gold_14px, 0, 0, 0);
             }
         } else {
 
@@ -156,10 +153,8 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
                 buttonView.setCompoundDrawablesWithIntrinsicBounds
                         (R.drawable.ic_baseline_keyboard_arrow_right_24px, 0, 0, 0);
                 recyclerView.setVisibility(View.GONE);
-            } else if(buttonView.getId() == R.id.favorite_toggle){
-                buttonView.setCompoundDrawablesWithIntrinsicBounds
-                        (R.drawable.ic_baseline_stars_grey_14px, 0, 0, 0);
             }
+
         }
     }
 }

@@ -76,6 +76,7 @@ public class SearchActivity extends AppCompatActivity {
                                         recyclerView.setVisibility(View.VISIBLE);
 
                                         Book book = new Book(response);
+                                        cache.cacheBook(book);
                                         mAdapter.add(book);
                                     }
 
