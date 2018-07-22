@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,14 +22,20 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class LandingPage extends AppCompatActivity {
 
     private final int INTERNET_PERMISSION = 1;
     private GoodreadRequest mGoodreadRequest;
+    private Map<Integer, Object> bookCache;
+    private InternalStorage caache;
     List<Book> books = new ArrayList<>();
 
     private List<Integer> randomBookIds = new ArrayList<>(
@@ -47,6 +55,8 @@ public class LandingPage extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        caache = new InternalStorage(this);
 
         String test = new Gson().toJson(new Author());
         Author author = new Gson().fromJson(test, Author.class);
@@ -70,26 +80,33 @@ public class LandingPage extends AppCompatActivity {
 
         for(int i = 0; i < randomBookIds.size(); i++){
 
-            mGoodreadRequest.getBook(randomBookIds.get(i), new SuccessFailedCallback() {
-                @Override
-                public void success(String response) {
+            if(caache.getCachedBookById(randomBookIds.get(i)) == null){
 
-                    Book book = new Book(response);
-                    //testTV.setText(test.toString());
-                    mAdapter.add(book);
-                }
+                mGoodreadRequest.getBook(randomBookIds.get(i), new SuccessFailedCallback() {
+                    @Override
+                    public void success(String response) {
 
-                @Override
-                public void failed() {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            "some error occurred",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+                        Book book = new Book(response);
+                        caache.cacheBook(book);
+                        mAdapter.add(book);
+
+                    }
+
+                    @Override
+                    public void failed() {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "some error occurred",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            } else{
+                mAdapter.add(caache.getCachedBookById(randomBookIds.get(i)));
+            }
+
         }
-
-
+        
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +115,7 @@ public class LandingPage extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), SearchActivity.class));
             }
         });
+
 
 
     }
