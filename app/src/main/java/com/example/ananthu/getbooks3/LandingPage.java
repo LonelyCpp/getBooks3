@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +47,9 @@ public class LandingPage extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        String test = new Gson().toJson(new Author());
+        Author author = new Gson().fromJson(test, Author.class);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewLandingPage);
 

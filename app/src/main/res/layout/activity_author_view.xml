@@ -39,9 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="vertical"
-                android:background="@color/secondaryColor"
                 android:paddingBottom="6dp"
-                android:paddingTop="8dp">
+                android:paddingTop="12dp">
 
                 <ImageView
                     android:id="@+id/authorImage"
@@ -57,7 +56,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:textColor="@color/LightGrey"
+                    android:textColor="@color/secondaryDarkColor"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_gravity="center"
@@ -69,7 +68,6 @@
                     android:id="@+id/favorite_toggle"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:textColor="@drawable/fav_selector"
-                    android:background="@color/secondaryColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
