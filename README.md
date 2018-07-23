@@ -1,6 +1,6 @@
 # Get Books!
 
-A Simple Android App That Helps You Keep Your Favorite Books In One Place! Uses The Goodreads Api To Get All The Data.
+A simple android app that helps you keep your favorite books in one place! It uses the goodreads api to get all the data.
 
 #### Features
 
