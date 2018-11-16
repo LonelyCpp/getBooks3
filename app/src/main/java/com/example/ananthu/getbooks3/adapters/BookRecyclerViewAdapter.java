@@ -1,4 +1,4 @@
-package com.example.ananthu.getbooks3;
+package com.example.ananthu.getbooks3.adapters;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -14,20 +14,20 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.ananthu.getbooks3.BookViewActivity;
+import com.example.ananthu.getbooks3.R;
+import com.example.ananthu.getbooks3.model.Author;
+import com.example.ananthu.getbooks3.model.Book;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ananthu on 26-05-2018.
- */
-
 public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.ViewHolder>{
 
     private List<Book> values;
 
-    BookRecyclerViewAdapter(List<Book> myDataset) {
+    public BookRecyclerViewAdapter(List<Book> myDataset) {
         values = myDataset;
     }
 
@@ -76,12 +76,10 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
         LayoutInflater inflater = LayoutInflater.from(
                 parent.getContext());
         View v =
                 inflater.inflate(R.layout.book_row_layout, parent, false);
-        // set the view's size, margins, paddings and layout parameters
         return new ViewHolder(v);
     }
 

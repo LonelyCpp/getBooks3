@@ -1,10 +1,7 @@
-package com.example.ananthu.getbooks3;
+package com.example.ananthu.getbooks3.adapters;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ananthu.getbooks3.AuthorViewActivity;
+import com.example.ananthu.getbooks3.util.CircleTransform;
+import com.example.ananthu.getbooks3.R;
+import com.example.ananthu.getbooks3.model.Author;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,9 +21,6 @@ public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecycl
 
 private List<Author> authorList;
 
-/**
- * View holder class
- * */
 public class MyViewHolder extends RecyclerView.ViewHolder {
     public TextView name;
     public ImageView image;

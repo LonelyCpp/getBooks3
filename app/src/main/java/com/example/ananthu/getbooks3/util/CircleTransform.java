@@ -1,4 +1,4 @@
-package com.example.ananthu.getbooks3;
+package com.example.ananthu.getbooks3.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

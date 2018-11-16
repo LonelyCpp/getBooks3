@@ -2,7 +2,9 @@ package com.example.ananthu.getbooks3;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.example.ananthu.getbooks3.model.Author;
+import com.example.ananthu.getbooks3.model.Book;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

@@ -1,4 +1,4 @@
-package com.example.ananthu.getbooks3;
+package com.example.ananthu.getbooks3.model;
 
 import android.util.Log;
 

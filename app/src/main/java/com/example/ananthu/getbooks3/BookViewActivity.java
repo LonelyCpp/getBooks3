@@ -18,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.example.ananthu.getbooks3.adapters.AuthorRecyclerViewAdapter;
+import com.example.ananthu.getbooks3.model.Author;
+import com.example.ananthu.getbooks3.model.Book;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

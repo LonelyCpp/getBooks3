@@ -1,6 +1,5 @@
 package com.example.ananthu.getbooks3;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,12 +9,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.ananthu.getbooks3.adapters.BookRecyclerViewAdapter;
+import com.example.ananthu.getbooks3.model.Author;
+import com.example.ananthu.getbooks3.model.Book;
+import com.example.ananthu.getbooks3.network.GoodreadRequest;
+import com.example.ananthu.getbooks3.network.SuccessFailedCallback;
+import com.example.ananthu.getbooks3.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.ananthu.getbooks3;
+package com.example.ananthu.getbooks3.network;
 
 /**
  * Created by Ananthu on 26-05-2018.
