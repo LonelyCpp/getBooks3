@@ -10,43 +10,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ananthu.getbooks3.AuthorViewActivity;
-import com.example.ananthu.getbooks3.util.CircleTransform;
 import com.example.ananthu.getbooks3.R;
 import com.example.ananthu.getbooks3.model.Author;
+import com.example.ananthu.getbooks3.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecyclerViewAdapter.MyViewHolder>{
+public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecyclerViewAdapter.AuthorViewHolder> {
 
-private List<Author> authorList;
-
-public class MyViewHolder extends RecyclerView.ViewHolder {
-    public TextView name;
-    public ImageView image;
-    public LinearLayout row;
-
-    public MyViewHolder(View view) {
-        super(view);
-        name = view.findViewById(R.id.authorName);
-        image = view.findViewById(R.id.authorImage);
-        row = view.findViewById(R.id.authorRowContainer);
-    }
-}
+    private List<Author> authorList;
 
     public AuthorRecyclerViewAdapter(List<Author> authorList) {
         this.authorList = authorList;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(AuthorViewHolder holder, int position) {
         final Author a = authorList.get(position);
         holder.name.setText(a.getName());
-        Picasso
-            .get()
-            .load(a.getImg())
-            .transform(new CircleTransform())
-            .into(holder.image);
+        Picasso.get()
+                .load(a.getImg())
+                .transform(new CircleTransform())
+                .into(holder.image);
 
         holder.row.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +41,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
                 i.putExtra("author", a);
                 v.getContext().startActivity(i);
             }
-            });
+        });
     }
 
     @Override
@@ -64,9 +50,22 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AuthorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.author_row_layout,parent, false);
-        return new MyViewHolder(v);
+                .inflate(R.layout.author_row_layout, parent, false);
+        return new AuthorViewHolder(v);
+    }
+
+    public class AuthorViewHolder extends RecyclerView.ViewHolder {
+        public TextView name;
+        public ImageView image;
+        public LinearLayout row;
+
+        public AuthorViewHolder(View view) {
+            super(view);
+            name = view.findViewById(R.id.authorName);
+            image = view.findViewById(R.id.authorImage);
+            row = view.findViewById(R.id.authorRowContainer);
+        }
     }
 }

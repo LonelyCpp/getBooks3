@@ -24,21 +24,21 @@ public class GoodreadRequest {
         requestQueue = Volley.newRequestQueue(context);
     }
 
-    private void request(String url, final SuccessFailedCallback callback){
+    private void request(String url, final SuccessFailedCallback callback) {
         Log.d("request", "request : " + url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("request", "response : " + response);
-                        if(callback != null){
+                        if (callback != null) {
                             callback.success(response);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(callback != null){
+                if (callback != null) {
                     callback.failed();
                 }
             }
@@ -47,21 +47,21 @@ public class GoodreadRequest {
         requestQueue.add(stringRequest);
     }
 
-    public void getBook(Integer id, final SuccessFailedCallback callback){
+    public void getBook(Integer id, final SuccessFailedCallback callback) {
 
-        String url = "https://www.goodreads.com/book/show/" + id +".xml?key=" + key;
+        String url = "https://www.goodreads.com/book/show/" + id + ".xml?key=" + key;
         Log.d("request", "getBook " + url);
         request(url, callback);
     }
 
-    public void getAuthor(Integer id, final SuccessFailedCallback callback){
+    public void getAuthor(Integer id, final SuccessFailedCallback callback) {
 
-        String url = "https://www.goodreads.com/author/show/" + id +"?format=xml&key=" + key;
+        String url = "https://www.goodreads.com/author/show/" + id + "?format=xml&key=" + key;
         Log.d("request", "getAuthor " + url);
         request(url, callback);
     }
 
-    public void searchBook(String query, final SuccessFailedCallback callback){
+    public void searchBook(String query, final SuccessFailedCallback callback) {
 
         String url = "https://www.goodreads.com/search/index.xml?q=" + query + "&key=" + key;
         Log.d("request", "searchBook " + url);

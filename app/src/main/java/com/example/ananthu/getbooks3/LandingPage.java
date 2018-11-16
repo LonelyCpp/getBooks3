@@ -11,20 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.ananthu.getbooks3.adapters.BookRecyclerViewAdapter;
 import com.example.ananthu.getbooks3.model.Book;
+import com.example.ananthu.getbooks3.model.BookBuilder;
 import com.example.ananthu.getbooks3.network.GoodreadRequest;
 import com.example.ananthu.getbooks3.network.SuccessFailedCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class LandingPage extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class LandingPage extends AppCompatActivity {
                     30256224, 30688013, 22535503,
                     22557272, 31848288, 31208653,
                     17345242, 853510, 12067)
-        );
+    );
 
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter mAdapter;
@@ -82,21 +82,20 @@ public class LandingPage extends AppCompatActivity {
         });
 
 
-
     }
-    
 
-    private void loadFavBooks(){
+
+    private void loadFavBooks() {
         favBookIds = cache.getFavListCache();
-        for(int i = 0; i < favBookIds.size(); i++){
+        for (int i = 0; i < favBookIds.size(); i++) {
 
-            if(cache.getCachedBookById(favBookIds.get(i)) == null){
+            if (cache.getCachedBookById(favBookIds.get(i)) == null) {
 
                 mGoodreadRequest.getBook(favBookIds.get(i), new SuccessFailedCallback() {
                     @Override
                     public void success(String response) {
 
-                        Book book = new Book(response);
+                        Book book = BookBuilder.getBookFromXML(response);
                         cache.cacheBook(book);
                         mAdapter.add(book);
 
@@ -111,7 +110,7 @@ public class LandingPage extends AppCompatActivity {
                     }
                 });
 
-            } else{
+            } else {
                 mAdapter.add(cache.getCachedBookById(favBookIds.get(i)));
             }
 
@@ -135,17 +134,17 @@ public class LandingPage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void requestInternetPermission(){
+    private void requestInternetPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.INTERNET)
                 != PackageManager.PERMISSION_GRANTED) {
 
             if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.INTERNET)) {
-                        ActivityCompat.requestPermissions(this,
-                                new String[]{Manifest.permission.INTERNET},
-                                INTERNET_PERMISSION);
-                    }
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.INTERNET},
+                        INTERNET_PERMISSION);
+            }
         }
     }
 

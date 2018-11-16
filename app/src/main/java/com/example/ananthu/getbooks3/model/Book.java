@@ -1,14 +1,6 @@
 package com.example.ananthu.getbooks3.model;
 
-import android.util.Log;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
 import java.io.Serializable;
-import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +8,7 @@ import java.util.Map;
  * Created by Ananthu on 26-05-2018.
  */
 
-public class Book implements Serializable{
+public class Book implements Serializable {
     private int id;
     private int isbn;
     private String title;
@@ -30,129 +22,6 @@ public class Book implements Serializable{
     private int reviewCount = 0;
     private String url;
 
-    public Book(){}
-
-    public Book(String xmlString){
-        XmlPullParserFactory pullParserFactory;
-
-        try {
-            pullParserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = pullParserFactory.newPullParser();
-
-            StringReader in_s = new StringReader(xmlString);
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(in_s);
-
-            int eventType = parser.getEventType();
-            boolean idSet = false;
-            boolean titleSet = false;
-            boolean isbnSet = false;
-            boolean imgSet = false;
-            boolean smallImgSet = false;
-            boolean despSet = false;
-            boolean tpSet = false;
-            boolean buySet = false;
-            boolean ratingSet = false;
-            boolean revCountSet = false;
-            boolean urlSet = false;
-
-            while (eventType != XmlPullParser.END_DOCUMENT){
-                String name;
-
-                switch (eventType){
-                    case XmlPullParser.START_DOCUMENT:
-                        break;
-                    case XmlPullParser.START_TAG:
-                        name = parser.getName();
-
-                        if(name.equals("id") && !idSet){
-                            String id = parser.nextText();
-                            this.id = Integer.parseInt(id);
-                            idSet = true;
-                        }
-                        else if(name.equals("isbn") && !isbnSet){
-                            String isbn = parser.nextText();
-                            try {
-                                this.isbn = Integer.parseInt(isbn);
-                            }catch (NumberFormatException e){
-                                this.isbn = 0;
-                            }
-                            isbnSet = true;
-                        }
-                        else if(name.equals("title") && !titleSet){
-                            this.title = parser.nextText().trim();;
-                            titleSet = true;
-                        }
-                        else if(name.equals("image_url") && !imgSet){
-                            this.imageUrl = parser.nextText();
-                            imgSet = true;
-                        }
-                        else if(name.equals("small_image_url") && !smallImgSet){
-                            this.smallImageUrl = parser.nextText();
-                            smallImgSet = true;
-                        }
-                        else if(name.equals("url") && !urlSet){
-                            this.url = parser.nextText();
-                            urlSet = true;
-                        }
-                        else if(name.equals("description") && !despSet){
-                            this.description = parser.nextText();
-                            despSet = true;
-                        }
-                        else if(name.equals("num_pages") && !tpSet){
-                            try {
-                                this.totalPages = Integer.parseInt(parser.nextText());
-                            }catch (NumberFormatException e){
-                                this.totalPages = 0;
-                            }
-                            tpSet = true;
-                        }
-                        else if(name.equals("average_rating") && !ratingSet){
-                            try {
-                                this.avgRating = Double.parseDouble(parser.nextText());
-                            }catch (NumberFormatException e){
-                                this.avgRating = 0;
-                            }
-                            ratingSet = true;
-                        }
-                        else if(name.equals("text_reviews_count") && !revCountSet){
-                            try {
-                                this.reviewCount = Integer.parseInt(parser.nextText());
-                            }catch (NumberFormatException e){
-                                this.reviewCount = 0;
-                            }
-                            revCountSet = true;
-                        }
-
-                        else if(idSet && isbnSet && titleSet && imgSet && smallImgSet
-                                && despSet && tpSet && ratingSet && revCountSet && urlSet){
-                            return;
-                        }
-                        break;
-                    case XmlPullParser.END_TAG:
-                        if(parser.getName().equals("book")){
-                            return;
-                        }
-                        break;
-                }
-                eventType = parser.next();
-            }
-
-
-
-        } catch (XmlPullParserException e) {
-
-            e.printStackTrace();
-            Log.e("xmlPare", e.getMessage());
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            Log.e("xmlPare", e.getMessage());
-        } finally {
-            authors = Author.getAuthorsUsingBookAPI(xmlString);
-        }
-
-    }
 
     public int getId() {
         return id;
@@ -261,12 +130,10 @@ public class Book implements Serializable{
                 ", description='" + description + '\'' +
                 ", totalPages=" + totalPages +
                 ", authors=" + authors +
-                //", buyLinks=" + buyLinks +
                 ", avgRating=" + avgRating +
                 ", reviewCount=" + reviewCount +
                 ", url=" + url +
                 '}';
     }
-
 
 }

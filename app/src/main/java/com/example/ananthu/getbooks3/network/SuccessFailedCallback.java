@@ -6,5 +6,6 @@ package com.example.ananthu.getbooks3.network;
 
 public interface SuccessFailedCallback {
     void success(String response);
+
     void failed();
 }
