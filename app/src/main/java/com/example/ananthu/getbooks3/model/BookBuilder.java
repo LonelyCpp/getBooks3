@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 public class BookBuilder {
+    private static final String TAG = BookBuilder.class.getName();
 
     public static Book getBookFromXML(String xmlString) {
 
@@ -112,11 +113,11 @@ public class BookBuilder {
         } catch (XmlPullParserException e) {
 
             e.printStackTrace();
-            Log.e("xmlPare", e.getMessage());
+            Log.e(TAG, "getBookFromXML: ", e);
         } catch (IOException e) {
 
             e.printStackTrace();
-            Log.e("xmlPare", e.getMessage());
+            Log.e(TAG, "getBookFromXML: ", e);
         } finally {
             book.setAuthors(AuthorBuilder.getAuthorsUsingBookAPI(xmlString));
         }

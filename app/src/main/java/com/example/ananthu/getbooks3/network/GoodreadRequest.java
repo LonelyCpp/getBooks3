@@ -26,23 +26,18 @@ public class GoodreadRequest {
 
     private void request(String url, final SuccessFailedCallback callback) {
         Log.d("request", "request : " + url);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("request", "response : " + response);
-                        if (callback != null) {
-                            callback.success(response);
-                        }
+                response -> {
+                    Log.d("request", "response : " + response);
+                    if (callback != null) {
+                        callback.success(response);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (callback != null) {
-                    callback.failed();
-                }
-            }
-        });
+                }, error -> {
+                    if (callback != null) {
+                        callback.failed();
+                    }
+                });
 
         requestQueue.add(stringRequest);
     }
@@ -66,14 +61,5 @@ public class GoodreadRequest {
         String url = "https://www.goodreads.com/search/index.xml?q=" + query + "&key=" + key;
         Log.d("request", "searchBook " + url);
         request(url, callback);
-    }
-
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 }

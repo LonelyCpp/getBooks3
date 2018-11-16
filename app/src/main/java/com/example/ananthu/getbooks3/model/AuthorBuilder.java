@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorBuilder {
+    private static final String TAG = AuthorBuilder.class.getName();
 
     public static List<Author> getAuthorsUsingBookAPI(String xmlString) {
+        Log.d(TAG, "getAuthorsUsingBookAPI: entered");
 
-        Log.d("method", "entered getAuthorsUsingBookAPI");
         List<Author> authorList = new ArrayList<>();
         XmlPullParserFactory pullParserFactory;
 
@@ -51,19 +52,19 @@ public class AuthorBuilder {
                             continue;
                         }
 
-                        Log.d("parser", tagName);
-                        Log.d("parser", "entered author");
+                        Log.d(TAG, "getAuthorsUsingBookAPI: " + parser);
+                        Log.d(TAG, "getAuthorsUsingBookAPI: " + "entered author");
                         if (tagName.equals("id") && !idSet) {
-                            Log.d("parser", "set id");
+                            Log.d(TAG, "getAuthorsUsingBookAPI: " + "set id");
                             String id = parser.nextText();
                             auth.setId(Integer.parseInt(id));
                             idSet = true;
                         } else if (tagName.equals("name") && !nameSet) {
-                            Log.d("parser", "set name");
+                            Log.d(TAG, "getAuthorsUsingBookAPI: " + "set name");
                             auth.setName(parser.nextText());
                             nameSet = true;
                         } else if (tagName.equals("image_url") && !imgSet) {
-                            Log.d("parser", "set img");
+                            Log.d(TAG, "getAuthorsUsingBookAPI: " + "set img");
                             auth.setImg(parser.nextText().trim());
                             imgSet = true;
                         } else if (idSet && nameSet && imgSet) {
@@ -90,18 +91,14 @@ public class AuthorBuilder {
         } catch (IOException e) {
 
             e.printStackTrace();
-        } finally {
-
-            Log.d("method", "exit getAuthorsUsingBookAPI");
-            return authorList;
-
         }
 
-
+        Log.d(TAG, "getAuthorsUsingBookAPI: exit");
+        return authorList;
     }
 
     public static Author getFullDetails(String xmlString) {
-        Log.d("method", "entered getFullDetails");
+        Log.d(TAG, "getFullDetails: entered");
 
         Author author = new Author();
         XmlPullParserFactory pullParserFactory;
@@ -131,17 +128,17 @@ public class AuthorBuilder {
                         if (tagName.equals("books") || inBooks) {
                             inBooks = true;
                         } else if (tagName.equals("about")) {
-                            Log.d("parser", "set about");
+                            Log.d(TAG, "getFullDetails: set about");
                             author.setAbout(parser.nextText());
                         } else {
                             eventType = parser.next();
                             continue;
                         }
 
-                        Log.d("parser", tagName);
-                        Log.d("parser", "entered books");
+                        Log.d(TAG, "getFullDetails: " + tagName);
+                        Log.d(TAG, "getFullDetails: entered books");
                         if (tagName.equals("id")) {
-                            Log.d("parser", "set id");
+                            Log.d(TAG, "getFullDetails: set id");
                             String id = parser.nextText();
                             author.getBookIds().add(Integer.parseInt(id));
                         }
@@ -163,13 +160,10 @@ public class AuthorBuilder {
         } catch (IOException e) {
 
             e.printStackTrace();
-        } finally {
-            Log.d("method", "exit getFullDetails");
-
         }
 
+        Log.d(TAG, "getFullDetails: exit");
         return author;
-
     }
 
 }
