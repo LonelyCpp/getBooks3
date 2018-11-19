@@ -30,9 +30,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<Book> books = new ArrayList<>();
     private GoodreadRequest mGoodreadRequest;
-    private BookRecyclerViewAdapter mAdapter;
+    private BookRecyclerViewAdapter bookRecyclerViewAdapter;
     private SearchView bookSearch;
-    private RecyclerView recyclerView;
+    private RecyclerView bookRecyclerView;
     private ProgressBar loadingIcon;
     private InternalStorage cache;
 
@@ -43,18 +43,18 @@ public class SearchActivity extends AppCompatActivity {
         cache = new InternalStorage(this);
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
 
-        recyclerView = findViewById(R.id.book_recycler_view);
+        bookRecyclerView = findViewById(R.id.book_recycler_view);
         loadingIcon = findViewById(R.id.loading_icon);
 
         // for smooth scrolling in recycler view
-        recyclerView.setNestedScrollingEnabled(false);
+        bookRecyclerView.setNestedScrollingEnabled(false);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        bookRecyclerView.setLayoutManager(layoutManager);
 
 
-        mAdapter = new BookRecyclerViewAdapter(books);
-        recyclerView.setAdapter(mAdapter);
+        bookRecyclerViewAdapter = new BookRecyclerViewAdapter(books);
+        bookRecyclerView.setAdapter(bookRecyclerViewAdapter);
 
         bookSearch = findViewById(R.id.book_search);
 
@@ -64,8 +64,8 @@ public class SearchActivity extends AppCompatActivity {
                 query = query.replaceAll(" ", "+");
                 Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
                 loadingIcon.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-                mAdapter.clear();
+                bookRecyclerView.setVisibility(View.GONE);
+                bookRecyclerViewAdapter.clear();
 
                 mGoodreadRequest.searchBook(query, new SuccessFailedCallback() {
                     @Override
@@ -80,11 +80,11 @@ public class SearchActivity extends AppCompatActivity {
                                     public void success(String response) {
 
                                         loadingIcon.setVisibility(View.GONE);
-                                        recyclerView.setVisibility(View.VISIBLE);
+                                        bookRecyclerView.setVisibility(View.VISIBLE);
 
                                         Book book = BookBuilder.getBookFromXML(response);
                                         cache.cacheBook(book);
-                                        mAdapter.add(book);
+                                        bookRecyclerViewAdapter.add(book);
                                     }
 
                                     @Override
@@ -96,10 +96,10 @@ public class SearchActivity extends AppCompatActivity {
                                     }
                                 });
                             } else {
-                                mAdapter.add(cache.getCachedBookById(bookIds.get(i)));
+                                bookRecyclerViewAdapter.add(cache.getCachedBookById(bookIds.get(i)));
 
                                 loadingIcon.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
+                                bookRecyclerView.setVisibility(View.VISIBLE);
                             }
 
                         }
