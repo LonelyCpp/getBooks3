@@ -32,13 +32,11 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
     private Author author;
     private ImageView authorImage;
     private TextView authorName;
-    private TextView about;
     private TextView webAbout;
     private List<Book> books = new ArrayList<>();
 
-    private RecyclerView recyclerView;
-    private BookRecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView authorRecyclerView;
+    private BookRecyclerViewAdapter bookRecyclerViewAdapter;
     GoodreadRequest mGoodreadRequest;
     private InternalStorage cache;
 
@@ -50,17 +48,17 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
         authorName = findViewById(R.id.firstLine);
         authorImage = findViewById(R.id.authorImage);
-        recyclerView = findViewById(R.id.recycler_view);
+        authorRecyclerView = findViewById(R.id.recycler_view);
 
         // for smooth scrolling in recycler view
-        recyclerView.setNestedScrollingEnabled(false);
+        authorRecyclerView.setNestedScrollingEnabled(false);
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        authorRecyclerView.setLayoutManager(layoutManager);
 
 
-        mAdapter = new BookRecyclerViewAdapter(books);
-        recyclerView.setAdapter(mAdapter);
+        bookRecyclerViewAdapter = new BookRecyclerViewAdapter(books);
+        authorRecyclerView.setAdapter(bookRecyclerViewAdapter);
 
         webAbout = findViewById(R.id.webAbout);
         ToggleButton aboutToggle = findViewById(R.id.aboutToggle);
@@ -122,7 +120,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
                         Book book = BookBuilder.getBookFromXML(response);
                         cache.cacheBook(book);
-                        mAdapter.add(book);
+                        bookRecyclerViewAdapter.add(book);
                     }
 
                     @Override
@@ -131,7 +129,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
                     }
                 });
             } else {
-                mAdapter.add(cache.getCachedBookById(bookIds.get(i)));
+                bookRecyclerViewAdapter.add(cache.getCachedBookById(bookIds.get(i)));
             }
 
         }
@@ -152,7 +150,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
             } else if (buttonView.getId() == R.id.authorToggle) {
                 buttonView.setCompoundDrawablesWithIntrinsicBounds
                         (R.drawable.ic_baseline_keyboard_arrow_down_24px, 0, 0, 0);
-                recyclerView.setVisibility(View.VISIBLE);
+                authorRecyclerView.setVisibility(View.VISIBLE);
             }
         } else {
 
@@ -163,7 +161,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
             } else if (buttonView.getId() == R.id.authorToggle) {
                 buttonView.setCompoundDrawablesWithIntrinsicBounds
                         (R.drawable.ic_baseline_keyboard_arrow_right_24px, 0, 0, 0);
-                recyclerView.setVisibility(View.GONE);
+                authorRecyclerView.setVisibility(View.GONE);
             }
 
         }

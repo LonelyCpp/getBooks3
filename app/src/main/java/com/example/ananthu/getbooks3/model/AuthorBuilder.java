@@ -2,6 +2,8 @@ package com.example.ananthu.getbooks3.model;
 
 import android.util.Log;
 
+import com.example.ananthu.getbooks3.network.SuccessFailedCallback;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -14,6 +16,12 @@ import java.util.List;
 public class AuthorBuilder {
     private static final String TAG = AuthorBuilder.class.getName();
 
+    /**
+     * Get a list of authors of a book.
+     *
+     * @param xmlString XML response string of a book from {@link com.example.ananthu.getbooks3.network.GoodreadRequest#getBook(Integer, SuccessFailedCallback)} API
+     * @return A list of the book's authors
+     */
     public static List<Author> getAuthorsUsingBookAPI(String xmlString) {
         Log.d(TAG, "getAuthorsUsingBookAPI: entered");
 
@@ -97,6 +105,14 @@ public class AuthorBuilder {
         return authorList;
     }
 
+    /**
+     * Used to get some additional details about an author.
+     * (Author objects built from book XML will not have author summary)
+     *
+     * @param xmlString XML string from the {@link com.example.ananthu.getbooks3.network.GoodreadRequest#getAuthor(Integer, SuccessFailedCallback)} API
+     * @param author
+     * @return
+     */
     public static Author getAboutDetails(String xmlString, Author author) {
         Log.d(TAG, "getAboutDetails: entered");
 

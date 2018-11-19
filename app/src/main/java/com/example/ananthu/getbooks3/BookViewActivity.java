@@ -33,7 +33,6 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
     private TextView txtHeader;
     private TextView txtFooter;
     private ImageView bookCover;
-    private RelativeLayout rowContainer;
     private RatingBar bookRating;
     private TextView ratingCount;
     private TextView webDescription;
@@ -73,7 +72,6 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
         txtHeader = findViewById(R.id.firstLine);
         txtFooter = findViewById(R.id.secondLine);
         bookCover = findViewById(R.id.bookCover);
-        rowContainer = findViewById(R.id.row_container);
         bookRating = findViewById(R.id.bookRating);
         ratingCount = findViewById(R.id.ratingCount);
         descriptionToggle = findViewById(R.id.descriptionToggle);
