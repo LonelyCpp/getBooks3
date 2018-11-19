@@ -62,7 +62,6 @@ public class SearchActivity extends AppCompatActivity implements com.example.ana
         bookRecyclerView.setAdapter(bookRecyclerViewAdapter);
 
         bookSearch = findViewById(R.id.book_search);
-
         bookSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

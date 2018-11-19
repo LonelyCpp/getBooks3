@@ -1,8 +1,6 @@
 package com.example.ananthu.getbooks3.search;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.ananthu.getbooks3.InternalStorage;
 import com.example.ananthu.getbooks3.model.Book;
@@ -28,6 +26,13 @@ public class SearchPresenter {
         this.searchView = searchView;
     }
 
+    /**
+     * Gets a list of Goodreads ids from the XML response of {@link GoodreadRequest#searchBook(String, SuccessFailedCallback)} API
+     *
+     * @param query query string
+     * @param goodreadRequest request object
+     * @param cache internal storage cache
+     */
     public void searchQuery(String query, final GoodreadRequest goodreadRequest, final InternalStorage cache) {
 
         query = query.replaceAll(" ", "+");
@@ -45,6 +50,13 @@ public class SearchPresenter {
         });
     }
 
+    /**
+     * for each id in the search result check if it exists in cache. if not request for it
+     *
+     * param bookIds goodreads book id
+     * @param goodreadRequest request object
+     * @param cache internal storage cache
+     */
     private void getEachBook(List<Integer> bookIds, final GoodreadRequest goodreadRequest, final InternalStorage cache){
 
         for (int i = 0; i < bookIds.size(); i++) {
@@ -70,6 +82,12 @@ public class SearchPresenter {
         }
     }
 
+    /**
+     * Parse the search result XML string to extract book ids
+     *
+     * @param xmlString XML string from {@link GoodreadRequest#searchBook(String, SuccessFailedCallback)} API
+     * @return list of integer ids
+     */
     private List<Integer> getBookIdsFromSearchResults(String xmlString) {
         Log.d(TAG, "getBookIdsFromSearchResults: entered");
 
