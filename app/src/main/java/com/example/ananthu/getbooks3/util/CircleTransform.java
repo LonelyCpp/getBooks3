@@ -1,4 +1,4 @@
-package com.example.ananthu.getbooks3;
+package com.example.ananthu.getbooks3.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -7,6 +7,10 @@ import android.graphics.Paint;
 
 import com.squareup.picasso.Transformation;
 
+/**
+ * A transformation filter for {@link com.squareup.picasso.RequestCreator#transform(Transformation)}
+ * This filter crops an image into a circle
+ */
 public class CircleTransform implements Transformation {
 
     @Override

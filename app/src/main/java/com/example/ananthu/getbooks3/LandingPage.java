@@ -11,57 +11,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.example.ananthu.getbooks3.adapters.BookRecyclerViewAdapter;
+import com.example.ananthu.getbooks3.model.Book;
+import com.example.ananthu.getbooks3.model.BookBuilder;
+import com.example.ananthu.getbooks3.network.GoodreadRequest;
+import com.example.ananthu.getbooks3.network.SuccessFailedCallback;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class LandingPage extends AppCompatActivity {
 
     private final int INTERNET_PERMISSION = 1;
     private GoodreadRequest mGoodreadRequest;
-    private Map<Integer, Object> bookCache;
-    private InternalStorage caache;
-    List<Book> books = new ArrayList<>();
+    private InternalStorage cache;
+    private List<Book> books = new ArrayList<>();
 
-    private List<Integer> favBookIds = new ArrayList<>(
-            Arrays.asList(
-                    30256224, 30688013, 22535503,
-                    22557272, 31848288, 31208653,
-                    17345242, 853510, 12067)
-        );
-
-    private RecyclerView recyclerView;
-    private BookRecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private BookRecyclerViewAdapter bookRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        caache = new InternalStorage(this);
+        cache = new InternalStorage(this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewLandingPage);
+        RecyclerView bookRecyclerView = findViewById(R.id.recyclerViewLandingPage);
 
         // for smooth scrolling in recycler view
-        recyclerView.setNestedScrollingEnabled(false);
+        bookRecyclerView.setNestedScrollingEnabled(false);
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        bookRecyclerView.setLayoutManager(layoutManager);
 
 
-        mAdapter = new BookRecyclerViewAdapter(books);
-        recyclerView.setAdapter(mAdapter);
+        bookRecyclerViewAdapter = new BookRecyclerViewAdapter(books);
+        bookRecyclerView.setAdapter(bookRecyclerViewAdapter);
 
 
         requestInternetPermission();
@@ -71,32 +62,26 @@ public class LandingPage extends AppCompatActivity {
 
         loadFavBooks();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-            }
-        });
-
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SearchActivity.class)));
 
 
     }
-    
 
-    private void loadFavBooks(){
-        favBookIds = caache.getFavListCache();
-        for(int i = 0; i < favBookIds.size(); i++){
 
-            if(caache.getCachedBookById(favBookIds.get(i)) == null){
+    private void loadFavBooks() {
+        final List<Integer> RANDOM_BOOK_ID = cache.getFavListCache();
+        for (int i = 0; i < RANDOM_BOOK_ID.size(); i++) {
 
-                mGoodreadRequest.getBook(favBookIds.get(i), new SuccessFailedCallback() {
+            if (cache.getCachedBookById(RANDOM_BOOK_ID.get(i)) == null) {
+
+                mGoodreadRequest.getBook(RANDOM_BOOK_ID.get(i), new SuccessFailedCallback() {
                     @Override
                     public void success(String response) {
 
-                        Book book = new Book(response);
-                        caache.cacheBook(book);
-                        mAdapter.add(book);
+                        Book book = BookBuilder.getBookFromXML(response);
+                        cache.cacheBook(book);
+                        bookRecyclerViewAdapter.add(book);
 
                     }
 
@@ -109,8 +94,8 @@ public class LandingPage extends AppCompatActivity {
                     }
                 });
 
-            } else{
-                mAdapter.add(caache.getCachedBookById(favBookIds.get(i)));
+            } else {
+                bookRecyclerViewAdapter.add(cache.getCachedBookById(RANDOM_BOOK_ID.get(i)));
             }
 
         }
@@ -118,34 +103,28 @@ public class LandingPage extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_landing_page, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void requestInternetPermission(){
+    private void requestInternetPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.INTERNET)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.INTERNET)) {
-
-            } else {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.INTERNET},
                         INTERNET_PERMISSION);
@@ -158,13 +137,10 @@ public class LandingPage extends AppCompatActivity {
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case INTERNET_PERMISSION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    return;
-                } else {
-                    Toast.makeText(this, "Internet Access denied", Toast.LENGTH_SHORT).show();
-                }
-                return;
+                if (grantResults.length <= 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "Internet Access denied", Toast.LENGTH_SHORT).show();
+                        }
             }
         }
     }
