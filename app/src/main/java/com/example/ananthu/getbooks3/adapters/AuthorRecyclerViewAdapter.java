@@ -2,6 +2,7 @@ package com.example.ananthu.getbooks3.adapters;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecyclerViewAdapter.AuthorViewHolder> {
+    private static final String TAG = AuthorRecyclerViewAdapter.class.getName();
 
     private List<Author> authorList;
 
@@ -27,6 +29,7 @@ public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecycl
 
     @Override
     public void onBindViewHolder(AuthorViewHolder holder, int position) {
+
         final Author a = authorList.get(position);
         holder.name.setText(a.getName());
         Picasso.get()
@@ -34,13 +37,11 @@ public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecycl
                 .transform(new CircleTransform())
                 .into(holder.image);
 
-        holder.row.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), AuthorViewActivity.class);
-                i.putExtra("author", a);
-                v.getContext().startActivity(i);
-            }
+        holder.row.setOnClickListener(v -> {
+            Intent i = new Intent(v.getContext(), AuthorViewActivity.class);
+            Log.d(TAG, "onBindViewHolder: onClick" + a.getImg());
+            i.putExtra("author", a);
+            v.getContext().startActivity(i);
         });
     }
 

@@ -97,10 +97,9 @@ public class AuthorBuilder {
         return authorList;
     }
 
-    public static Author getFullDetails(String xmlString) {
-        Log.d(TAG, "getFullDetails: entered");
+    public static Author getAboutDetails(String xmlString, Author author) {
+        Log.d(TAG, "getAboutDetails: entered");
 
-        Author author = new Author();
         XmlPullParserFactory pullParserFactory;
         author.setBookIds(new ArrayList<Integer>());
 
@@ -128,17 +127,17 @@ public class AuthorBuilder {
                         if (tagName.equals("books") || inBooks) {
                             inBooks = true;
                         } else if (tagName.equals("about")) {
-                            Log.d(TAG, "getFullDetails: set about");
+                            Log.d(TAG, "getAboutDetails: set about");
                             author.setAbout(parser.nextText());
                         } else {
                             eventType = parser.next();
                             continue;
                         }
 
-                        Log.d(TAG, "getFullDetails: " + tagName);
-                        Log.d(TAG, "getFullDetails: entered books");
+                        Log.d(TAG, "getAboutDetails: " + tagName);
+                        Log.d(TAG, "getAboutDetails: entered books");
                         if (tagName.equals("id")) {
-                            Log.d(TAG, "getFullDetails: set id");
+                            Log.d(TAG, "getAboutDetails: set id");
                             String id = parser.nextText();
                             author.getBookIds().add(Integer.parseInt(id));
                         }
@@ -162,7 +161,7 @@ public class AuthorBuilder {
             e.printStackTrace();
         }
 
-        Log.d(TAG, "getFullDetails: exit");
+        Log.d(TAG, "getAboutDetails: exit");
         return author;
     }
 

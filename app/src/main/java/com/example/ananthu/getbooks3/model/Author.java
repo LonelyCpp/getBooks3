@@ -19,14 +19,6 @@ public class Author implements Serializable {
     Author() {
     }
 
-    public Author(String name, int id, String img) {
-        this.name = name;
-        this.id = id;
-        this.img = img;
-        bookIds = new ArrayList<>();
-        about = "";
-    }
-
     public String getName() {
         return name;
     }

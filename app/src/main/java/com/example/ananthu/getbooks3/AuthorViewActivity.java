@@ -50,7 +50,6 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
         authorName = findViewById(R.id.firstLine);
         authorImage = findViewById(R.id.authorImage);
-        about = findViewById(R.id.webAbout);
         recyclerView = findViewById(R.id.recycler_view);
 
         // for smooth scrolling in recycler view
@@ -80,14 +79,18 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
             mGoodreadRequest.getAuthor(author.getId(), new SuccessFailedCallback() {
                 @Override
                 public void success(String response) {
-                    author = AuthorBuilder.getFullDetails(response);
+                    author = AuthorBuilder.getAboutDetails(response, author);
                     cache.cacheAuthor(author);
                     updateDetails(author);
                 }
 
                 @Override
                 public void failed() {
-                    Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT);
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             });
         } else {
@@ -100,12 +103,13 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
     public void updateDetails(Author author) {
         authorName.setText(author.getName());
+        Log.d(TAG, "updateDetails: " + author.getImg());
         Picasso
                 .get()
                 .load(author.getImg())
                 .transform(new CircleTransform())
                 .into(authorImage);
-        about.setText(Html.fromHtml(author.getAbout()));
+        webAbout.setText(Html.fromHtml(author.getAbout()));
 
         List<Integer> bookIds = author.getBookIds();
 
