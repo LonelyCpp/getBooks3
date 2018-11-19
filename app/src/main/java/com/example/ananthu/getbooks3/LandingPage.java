@@ -11,24 +11,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.example.ananthu.getbooks3.adapters.BookRecyclerViewAdapter;
+import com.example.ananthu.getbooks3.model.Book;
+import com.example.ananthu.getbooks3.model.BookBuilder;
+import com.example.ananthu.getbooks3.network.GoodreadRequest;
+import com.example.ananthu.getbooks3.network.SuccessFailedCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class LandingPage extends AppCompatActivity {
 
     private final int INTERNET_PERMISSION = 1;
     private GoodreadRequest mGoodreadRequest;
-    private Map<Integer, Object> bookCache;
-    private InternalStorage caache;
+    private InternalStorage cache;
     List<Book> books = new ArrayList<>();
 
     private List<Integer> favBookIds = new ArrayList<>(
@@ -36,7 +38,7 @@ public class LandingPage extends AppCompatActivity {
                     30256224, 30688013, 22535503,
                     22557272, 31848288, 31208653,
                     17345242, 853510, 12067)
-        );
+    );
 
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter mAdapter;
@@ -46,12 +48,12 @@ public class LandingPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        caache = new InternalStorage(this);
+        cache = new InternalStorage(this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewLandingPage);
+        recyclerView = findViewById(R.id.recyclerViewLandingPage);
 
         // for smooth scrolling in recycler view
         recyclerView.setNestedScrollingEnabled(false);
@@ -71,7 +73,7 @@ public class LandingPage extends AppCompatActivity {
 
         loadFavBooks();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,22 +82,21 @@ public class LandingPage extends AppCompatActivity {
         });
 
 
-
     }
-    
 
-    private void loadFavBooks(){
-        favBookIds = caache.getFavListCache();
-        for(int i = 0; i < favBookIds.size(); i++){
 
-            if(caache.getCachedBookById(favBookIds.get(i)) == null){
+    private void loadFavBooks() {
+        favBookIds = cache.getFavListCache();
+        for (int i = 0; i < favBookIds.size(); i++) {
+
+            if (cache.getCachedBookById(favBookIds.get(i)) == null) {
 
                 mGoodreadRequest.getBook(favBookIds.get(i), new SuccessFailedCallback() {
                     @Override
                     public void success(String response) {
 
-                        Book book = new Book(response);
-                        caache.cacheBook(book);
+                        Book book = BookBuilder.getBookFromXML(response);
+                        cache.cacheBook(book);
                         mAdapter.add(book);
 
                     }
@@ -109,8 +110,8 @@ public class LandingPage extends AppCompatActivity {
                     }
                 });
 
-            } else{
-                mAdapter.add(caache.getCachedBookById(favBookIds.get(i)));
+            } else {
+                mAdapter.add(cache.getCachedBookById(favBookIds.get(i)));
             }
 
         }
@@ -118,34 +119,28 @@ public class LandingPage extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_landing_page, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void requestInternetPermission(){
+    private void requestInternetPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.INTERNET)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.INTERNET)) {
-
-            } else {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.INTERNET},
                         INTERNET_PERMISSION);
@@ -164,7 +159,6 @@ public class LandingPage extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Internet Access denied", Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
         }
     }
