@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".AuthorViewActivity">
         </activity>
-        <activity android:name=".SearchActivity">
+        <activity android:name=".search.SearchActivity">
         </activity>
     </application>
 
