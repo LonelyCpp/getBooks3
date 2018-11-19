@@ -15,9 +15,10 @@ import com.android.volley.toolbox.Volley;
  */
 
 public class GoodreadRequest {
+    private static final String TAG = GoodreadRequest.class.getName();
+
     private RequestQueue requestQueue;
     private String key;
-
 
     public GoodreadRequest(String key, Context context) {
         this.key = key;
@@ -25,7 +26,7 @@ public class GoodreadRequest {
     }
 
     private void request(String url, final SuccessFailedCallback callback) {
-        Log.d("request", "request : " + url);
+        Log.d(TAG, "request: " + url);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -45,21 +46,18 @@ public class GoodreadRequest {
     public void getBook(Integer id, final SuccessFailedCallback callback) {
 
         String url = "https://www.goodreads.com/book/show/" + id + ".xml?key=" + key;
-        Log.d("request", "getBook " + url);
         request(url, callback);
     }
 
     public void getAuthor(Integer id, final SuccessFailedCallback callback) {
 
         String url = "https://www.goodreads.com/author/show/" + id + "?format=xml&key=" + key;
-        Log.d("request", "getAuthor " + url);
         request(url, callback);
     }
 
     public void searchBook(String query, final SuccessFailedCallback callback) {
 
         String url = "https://www.goodreads.com/search/index.xml?q=" + query + "&key=" + key;
-        Log.d("request", "searchBook " + url);
         request(url, callback);
     }
 }

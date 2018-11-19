@@ -27,14 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookViewActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+    private static final String TAG = BookViewActivity.class.getName();
 
     private Book book;
-    private TextView description;
     private TextView txtHeader;
     private TextView txtFooter;
     private ImageView bookCover;
     private RelativeLayout rowContainer;
-    private View layout;
     private RatingBar bookRating;
     private TextView ratingCount;
     private TextView webDescription;
@@ -48,8 +47,6 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
 
     private InternalStorage cache;
     private RecyclerView authorRecyclerView;
-    private AuthorRecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
 
     @Override
@@ -110,19 +107,16 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
             }
 
         } catch (ArrayIndexOutOfBoundsException er) {
-            Log.d("link", book.getUrl());
+            Log.e(TAG, "onCreate: book.getUrl()", er);
             url.setText(book.getUrl());
         }
 
         descriptionToggle.setOnCheckedChangeListener(this);
         authorToggle.setOnCheckedChangeListener(this);
         infoToggle.setOnCheckedChangeListener(this);
-        url.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(book.getUrl()));
-                startActivity(browserIntent);
-            }
+        url.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(book.getUrl()));
+            startActivity(browserIntent);
         });
 
         ToggleButton fav = findViewById(R.id.favorite_toggle);
@@ -150,7 +144,7 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
                 buttonView.setCompoundDrawablesWithIntrinsicBounds
                         (R.drawable.ic_baseline_stars_gold_14px, 0, 0, 0);
 
-                if (cache.isFavorite(book.getId()) == false) {
+                if (!cache.isFavorite(book.getId())) {
                     cache.addToFavList(book.getId());
                 }
             }

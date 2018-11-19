@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorViewActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+    private static final String TAG = AuthorViewActivity.class.getName();
 
     private Author author;
     private ImageView authorImage;
@@ -122,7 +123,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
                     @Override
                     public void failed() {
-                        Log.e("request", "error getting book from id");
+                        Log.e(TAG, "failed: getting book from id");
                     }
                 });
             } else {

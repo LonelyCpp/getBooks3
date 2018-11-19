@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InternalStorage {
+    private static final String TAG = InternalStorage.class.getName();
 
     private Context mContext;
     private Map<Integer, Book> bookCache;
@@ -35,7 +36,7 @@ public class InternalStorage {
             bookCache = (HashMap<Integer, Book>) InternalStorage.readObject(mContext, InternalStorage.BOOK_CACHE);
             authorCache = (HashMap<Integer, Author>) InternalStorage.readObject(mContext, InternalStorage.AUTHOR_CACHE);
         } catch (ClassNotFoundException er) {
-            Log.d("cache", "ClassNotFoundException");
+            Log.e(TAG, "InternalStorage: ", er);
         } catch (IOException er) {
 
             try {
@@ -44,21 +45,20 @@ public class InternalStorage {
                 InternalStorage.writeObject(mContext, InternalStorage.BOOK_CACHE, bookCache);
                 InternalStorage.writeObject(mContext, InternalStorage.AUTHOR_CACHE, authorCache);
             } catch (IOException err) {
-                Log.d("cache", "cannot write into storage");
+                Log.e(TAG, "InternalStorage: cannot write into storage", err);
             }
         }
 
         try {
             favListCache = (ArrayList<Integer>) InternalStorage.readObject(mContext, InternalStorage.FAV_CACHE);
         } catch (ClassNotFoundException er) {
-            Log.d("cache", "ClassNotFoundException");
+            Log.e(TAG, "InternalStorage: ", er);
         } catch (IOException er) {
-
             try {
                 favListCache = new ArrayList<>();
                 InternalStorage.writeObject(mContext, InternalStorage.FAV_CACHE, favListCache);
             } catch (IOException err) {
-                Log.d("cache", "cannot write into storage");
+                Log.e(TAG, "InternalStorage: cannot write into storage", err);
             }
         }
 
@@ -70,7 +70,7 @@ public class InternalStorage {
             bookCache.put(book.getId(), book);
             InternalStorage.writeObject(mContext, InternalStorage.BOOK_CACHE, bookCache);
         } catch (IOException err) {
-            Log.d("cache", "cannot write into storage");
+            Log.e(TAG, "cacheBook: cannot write into storage", err);
         }
     }
 
@@ -87,7 +87,7 @@ public class InternalStorage {
             authorCache.put(author.getId(), author);
             InternalStorage.writeObject(mContext, InternalStorage.AUTHOR_CACHE, authorCache);
         } catch (IOException err) {
-            Log.d("cache", "cannot write into storage");
+            Log.e(TAG, "cacheAuthor: cannot write into storage", err);
         }
     }
 
@@ -117,7 +117,7 @@ public class InternalStorage {
             this.favListCache.add(id);
             InternalStorage.writeObject(mContext, InternalStorage.FAV_CACHE, favListCache);
         } catch (IOException err) {
-            Log.d("cache", "cannot write into storage");
+            Log.e(TAG, "addToFavList: cannot write into storage", err);
         }
     }
 
@@ -133,7 +133,7 @@ public class InternalStorage {
             InternalStorage.writeObject(mContext, InternalStorage.FAV_CACHE, favListCache);
 
         } catch (IOException err) {
-            Log.d("cache", "cannot write into storage");
+            Log.e(TAG, "removeFromFavList: cannot write into storage", err);
         }
     }
 

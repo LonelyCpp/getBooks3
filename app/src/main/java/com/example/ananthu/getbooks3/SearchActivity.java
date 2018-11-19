@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
+    private static final String TAG = SearchActivity.class.getName();
 
     private List<Book> books = new ArrayList<>();
     private GoodreadRequest mGoodreadRequest;
@@ -129,7 +130,8 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private List<Integer> getBookIdsFromSearchResults(String xmlString) {
-        Log.d("method", "entered getBookIdsFromSearchResults");
+        Log.d(TAG, "getBookIdsFromSearchResults: entered");
+
         List<Integer> bookList = new ArrayList<>();
         XmlPullParserFactory pullParserFactory;
 
@@ -161,10 +163,10 @@ public class SearchActivity extends AppCompatActivity {
                             continue;
                         }
 
-                        Log.d("parser", tagName);
-                        Log.d("parser", "entered best_book");
+                        Log.d(TAG, "getBookIdsFromSearchResults: parser - " + tagName);
+                        Log.d(TAG, "getBookIdsFromSearchResults: parser - entered best_book");
                         if (tagName.equals("id")) {
-                            Log.d("parser", "set id");
+                            Log.d(TAG, "getBookIdsFromSearchResults: parser - set id");
                             String id = parser.nextText();
                             bookList.add(Integer.parseInt(id));
                             inBook = false;
@@ -178,10 +180,9 @@ public class SearchActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            Log.d("method", "exit getBookIdsFromSearchResults");
         }
 
+        Log.d(TAG, "getBookIdsFromSearchResults: exit");
         return bookList;
     }
 }
