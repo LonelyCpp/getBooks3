@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -14,17 +13,8 @@ import com.example.ananthu.getbooks3.InternalStorage;
 import com.example.ananthu.getbooks3.R;
 import com.example.ananthu.getbooks3.adapters.BookRecyclerViewAdapter;
 import com.example.ananthu.getbooks3.model.Book;
-import com.example.ananthu.getbooks3.model.BookBuilder;
 import com.example.ananthu.getbooks3.network.GoodreadRequest;
-import com.example.ananthu.getbooks3.network.SuccessFailedCallback;
-import com.example.ananthu.getbooks3.util.Toastable;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 

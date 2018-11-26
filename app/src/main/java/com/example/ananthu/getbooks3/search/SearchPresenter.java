@@ -17,7 +17,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPresenter {
+class SearchPresenter {
     private static final String TAG = SearchPresenter.class.getName();
 
     private final SearchView searchView;

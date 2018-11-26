@@ -181,7 +181,7 @@ public class InternalStorage {
      * @param object value object
      * @throws IOException if internal storage is not accessible
      */
-    public static void writeObject(Context context, String fileName, Object object) throws IOException {
+    private static void writeObject(Context context, String fileName, Object object) throws IOException {
         FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(object);
@@ -198,7 +198,7 @@ public class InternalStorage {
      * @throws IOException if internal storage is not accessible
      * @throws ClassNotFoundException if the class of a serialized object could not be found.
      */
-    public static Object readObject(Context context, String fileName) throws IOException,
+    private static Object readObject(Context context, String fileName) throws IOException,
             ClassNotFoundException {
         FileInputStream fis = context.openFileInput(fileName);
         ObjectInputStream ois = new ObjectInputStream(fis);

@@ -12,12 +12,12 @@ import com.android.volley.toolbox.Volley;
 public class GoodreadRequest {
     private static final String TAG = GoodreadRequest.class.getName();
 
-    private RequestQueue requestQueue;
+    private final RequestQueue requestQueue;
 
     /**
      * Goodreads API Key
      */
-    private String key;
+    private final String key;
 
     public GoodreadRequest(String key, Context context) {
         this.key = key;
