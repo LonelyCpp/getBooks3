@@ -110,8 +110,8 @@ public class AuthorBuilder {
      * (Author objects built from book XML will not have author summary)
      *
      * @param xmlString XML string from the {@link com.example.ananthu.getbooks3.network.GoodreadRequest#getAuthor(Integer, SuccessFailedCallback)} API
-     * @param author
-     * @return
+     * @param author an existing {@link Author} object to store the details in.
+     * @return Updated Author object
      */
     public static Author getAboutDetails(String xmlString, Author author) {
         Log.d(TAG, "getAboutDetails: entered");

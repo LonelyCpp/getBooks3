@@ -37,7 +37,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
     private RecyclerView authorRecyclerView;
     private BookRecyclerViewAdapter bookRecyclerViewAdapter;
-    GoodreadRequest mGoodreadRequest;
+    private GoodreadRequest mGoodreadRequest;
     private InternalStorage cache;
 
     @Override
@@ -99,7 +99,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
 
     }
 
-    public void updateDetails(Author author) {
+    private void updateDetails(Author author) {
         authorName.setText(author.getName());
         Log.d(TAG, "updateDetails: " + author.getImg());
         Picasso
@@ -135,7 +135,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
         }
 
         findViewById(R.id.content).setVisibility(View.VISIBLE);
-        ;
+
         findViewById(R.id.loading_icon).setVisibility(View.GONE);
 
     }

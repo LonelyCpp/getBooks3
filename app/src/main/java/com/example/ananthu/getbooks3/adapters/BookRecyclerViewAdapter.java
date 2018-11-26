@@ -27,8 +27,8 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
 
     private List<Book> values;
 
-    public BookRecyclerViewAdapter(List<Book> myDataset) {
-        values = myDataset;
+    public BookRecyclerViewAdapter(List<Book> dataSet) {
+        values = dataSet;
     }
 
     public void clear() {
@@ -99,15 +99,15 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
 
     class BookViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView bookCover;
-        public View layout;
-        public RatingBar bookRating;
-        public TextView ratingCount;
-        TextView txtHeader;
-        TextView txtFooter;
-        RelativeLayout rowContainer;
+        final ImageView bookCover;
+        final View layout;
+        final RatingBar bookRating;
+        final TextView ratingCount;
+        final TextView txtHeader;
+        final TextView txtFooter;
+        final RelativeLayout rowContainer;
 
-        public BookViewHolder(View v) {
+        BookViewHolder(View v) {
             super(v);
             layout = v;
             txtHeader = v.findViewById(R.id.firstLine);

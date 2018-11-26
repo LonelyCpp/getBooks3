@@ -21,7 +21,7 @@ import java.util.List;
 public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecyclerViewAdapter.AuthorViewHolder> {
     private static final String TAG = AuthorRecyclerViewAdapter.class.getName();
 
-    private List<Author> authorList;
+    private final List<Author> authorList;
 
     public AuthorRecyclerViewAdapter(List<Author> authorList) {
         this.authorList = authorList;
@@ -58,11 +58,11 @@ public class AuthorRecyclerViewAdapter extends RecyclerView.Adapter<AuthorRecycl
     }
 
     public class AuthorViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
-        public ImageView image;
-        public LinearLayout row;
+        final TextView name;
+        final ImageView image;
+        final LinearLayout row;
 
-        public AuthorViewHolder(View view) {
+        AuthorViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.authorName);
             image = view.findViewById(R.id.authorImage);
