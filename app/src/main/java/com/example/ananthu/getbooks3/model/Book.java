@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Ananthu on 26-05-2018.
- */
-
 public class Book implements Serializable {
     private int id;
     private int isbn;

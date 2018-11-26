@@ -28,6 +28,11 @@ public class InternalStorage {
     private final static String AUTHOR_CACHE = "AUTHOR_CACHE";
     private final static String FAV_CACHE = "FAV_CACHE";
 
+    /**
+     * Reads cache from internal storage. if no cache files were found, new files are created
+     *
+     * @param context application context
+     */
     public InternalStorage(Context context) {
 
         mContext = context;
@@ -64,6 +69,10 @@ public class InternalStorage {
 
     }
 
+    /**
+     * Writes a book into the cache
+     * @param book book object
+     */
     public void cacheBook(Book book) {
 
         try {
@@ -74,6 +83,11 @@ public class InternalStorage {
         }
     }
 
+    /**
+     * gets a book from cache
+     * @param id goodreads id of the book
+     * @return book object
+     */
     public Book getCachedBookById(Integer id) {
         if (bookCache.containsKey(id)) {
             return bookCache.get(id);
@@ -81,6 +95,11 @@ public class InternalStorage {
         return null;
     }
 
+    /**
+     * Writes an author into the cache
+     *
+     * @param author author object
+     */
     public void cacheAuthor(Author author) {
 
         try {
@@ -91,6 +110,11 @@ public class InternalStorage {
         }
     }
 
+    /**
+     * Gets an author from cache
+     * @param id goodreads id of the author
+     * @return author object
+     */
     public Author getCachedAuthorById(Integer id) {
         if (authorCache.containsKey(id)) {
             return authorCache.get(id);
@@ -98,6 +122,10 @@ public class InternalStorage {
         return null;
     }
 
+    /**
+     * Lists favorite books of the user
+     * @return  a list of goodreads ids of the books
+     */
     public List<Integer> getFavListCache() {
         return favListCache;
     }
@@ -112,6 +140,10 @@ public class InternalStorage {
         return false;
     }
 
+    /**
+     * adds a book id to favorite list
+     * @param id goodreads id of the book
+     */
     public void addToFavList(Integer id) {
         try {
             this.favListCache.add(id);
@@ -121,6 +153,10 @@ public class InternalStorage {
         }
     }
 
+    /**
+     * removes a book id from favorite list
+     * @param id goodreads id of the book
+     */
     public void removeFromFavList(Integer id) {
 
         try {
@@ -137,19 +173,35 @@ public class InternalStorage {
         }
     }
 
-    public static void writeObject(Context context, String key, Object object) throws IOException {
-        FileOutputStream fos = context.openFileOutput(key, Context.MODE_PRIVATE);
+    /**
+     * Writes an object into a file in internal storage
+     *
+     * @param context application context
+     * @param fileName file name string
+     * @param object value object
+     * @throws IOException if internal storage is not accessible
+     */
+    private static void writeObject(Context context, String fileName, Object object) throws IOException {
+        FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(object);
         oos.close();
         fos.close();
     }
 
-    public static Object readObject(Context context, String key) throws IOException,
+    /**
+     * Reads an object from internal storage
+     *
+     * @param context application context
+     * @param fileName file name string
+     * @return object from the file
+     * @throws IOException if internal storage is not accessible
+     * @throws ClassNotFoundException if the class of a serialized object could not be found.
+     */
+    private static Object readObject(Context context, String fileName) throws IOException,
             ClassNotFoundException {
-        FileInputStream fis = context.openFileInput(key);
+        FileInputStream fis = context.openFileInput(fileName);
         ObjectInputStream ois = new ObjectInputStream(fis);
-        Object object = ois.readObject();
-        return object;
+        return ois.readObject();
     }
 }

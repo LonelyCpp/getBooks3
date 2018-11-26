@@ -1,12 +1,7 @@
 package com.example.ananthu.getbooks3.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Ananthu on 26-05-2018.
- */
 
 public class Author implements Serializable {
 
