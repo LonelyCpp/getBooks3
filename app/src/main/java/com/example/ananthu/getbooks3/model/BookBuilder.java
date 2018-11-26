@@ -17,7 +17,7 @@ public class BookBuilder {
     /**
      * Parse info from the XML string containing book details
      *
-     * @param xmlString XML responce from {@link com.example.ananthu.getbooks3.network.GoodreadRequest#getBook(Integer, SuccessFailedCallback)} API
+     * @param xmlString XML response from {@link com.example.ananthu.getbooks3.network.GoodreadRequest#getBook(Integer, SuccessFailedCallback)} API
      * @return A {@link Book} Object
      */
     public static Book getBookFromXML(String xmlString) {
