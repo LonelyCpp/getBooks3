@@ -51,7 +51,7 @@ public class BookViewActivity extends AppCompatActivity implements CompoundButto
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_view);
-        cache = new InternalStorage(this);
+        cache = InternalStorage.getInstance();
         book = (Book) getIntent().getSerializableExtra("book");
 
         List<Author> authorList = book.getAuthors();

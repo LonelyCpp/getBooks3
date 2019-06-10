@@ -44,7 +44,7 @@ public class AuthorViewActivity extends AppCompatActivity implements CompoundBut
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_author_view);
-        cache = new InternalStorage(this);
+        cache = InternalStorage.getInstance();
 
         authorName = findViewById(R.id.firstLine);
         authorImage = findViewById(R.id.authorImage);
