@@ -11,8 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.ananthu.getbooks3.adapters.BookRecyclerViewAdapter;
@@ -26,13 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LandingPage extends AppCompatActivity {
+    private static final String TAG = LandingPage.class.getSimpleName();
 
     private final int INTERNET_PERMISSION = 1;
     private GoodreadRequest mGoodreadRequest;
     private InternalStorage cache;
-    private List<Book> books = new ArrayList<>();
 
     private BookRecyclerViewAdapter bookRecyclerViewAdapter;
+    private RecyclerView bookRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +43,10 @@ public class LandingPage extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        InternalStorage.init(getApplicationContext());
+        cache = InternalStorage.getInstance();
 
-        cache = new InternalStorage(this);
-
-        RecyclerView bookRecyclerView = findViewById(R.id.recyclerViewLandingPage);
+        bookRecyclerView = findViewById(R.id.recyclerViewLandingPage);
 
         // for smooth scrolling in recycler view
         bookRecyclerView.setNestedScrollingEnabled(false);
@@ -52,31 +55,34 @@ public class LandingPage extends AppCompatActivity {
         bookRecyclerView.setLayoutManager(layoutManager);
 
 
-        bookRecyclerViewAdapter = new BookRecyclerViewAdapter(books);
-        bookRecyclerView.setAdapter(bookRecyclerViewAdapter);
+//        bookRecyclerViewAdapter = new BookRecyclerViewAdapter(new ArrayList<>());
+//        bookRecyclerView.setAdapter(bookRecyclerViewAdapter);
 
 
         requestInternetPermission();
 
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
 
-
-        loadFavBooks();
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SearchActivity.class)));
-
-
     }
 
+    @Override
+    protected void onResume() {
+        loadFavBooks();
+        super.onResume();
+    }
 
     private void loadFavBooks() {
-        final List<Integer> RANDOM_BOOK_ID = cache.getFavListCache();
-        for (int i = 0; i < RANDOM_BOOK_ID.size(); i++) {
+        final List<Integer> favBookIds = cache.getFavListCache();
+        Log.d(TAG, "loadFavBooks: loading fav books");
+        bookRecyclerViewAdapter = new BookRecyclerViewAdapter(new ArrayList<>());
 
-            if (cache.getCachedBookById(RANDOM_BOOK_ID.get(i)) == null) {
+        for (int i = 0; i < favBookIds.size(); i++) {
+            Log.d(TAG, "loadFavBooks: fav book" + favBookIds.get(i));
+            if (cache.getCachedBookById(favBookIds.get(i)) == null) {
 
-                mGoodreadRequest.getBook(RANDOM_BOOK_ID.get(i), new SuccessFailedCallback() {
+                mGoodreadRequest.getBook(favBookIds.get(i), new SuccessFailedCallback() {
                     @Override
                     public void success(String response) {
 
@@ -96,10 +102,12 @@ public class LandingPage extends AppCompatActivity {
                 });
 
             } else {
-                bookRecyclerViewAdapter.add(cache.getCachedBookById(RANDOM_BOOK_ID.get(i)));
+                bookRecyclerViewAdapter.add(cache.getCachedBookById(favBookIds.get(i)));
             }
 
         }
+        bookRecyclerView.setAdapter(bookRecyclerViewAdapter);
+        bookRecyclerView.invalidate();
     }
 
     @Override
