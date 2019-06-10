@@ -34,7 +34,7 @@ public class SearchActivity extends AppCompatActivity implements com.example.ana
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        cache = new InternalStorage(this);
+        cache = InternalStorage.getInstance();
         mGoodreadRequest = new GoodreadRequest(getString(R.string.GR_API_Key), this);
         searchPresenter = new SearchPresenter(this);
 
